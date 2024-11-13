@@ -1,0 +1,65 @@
+name: Build and Deploy to TestFlight
+
+on:
+  push:
+    branches:
+      - main # Or any branch you want to trigger the action on
+
+jobs:
+  build:
+    runs-on: macos-latest  # Use macOS runner for iOS builds
+    steps:
+    
+    # Step 1: Check out the code from the repository
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Step 2: Set up AWS CLI
+    - name: Install AWS CLI
+      run: |
+        if ! command -v aws &> /dev/null
+        then
+          echo "AWS CLI not found, installing..."
+          brew install awscli
+        else
+          echo "AWS CLI already installed"
+        fi
+
+    # Step 3: Configure AWS CLI with GitHub Secrets (AWS credentials)
+    - name: Configure AWS CLI
+      run: |
+        aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws configure set default.region us-west-1  # Set to your region, like us-east-1
+
+    # Step 4: Set up Fastlane and install dependencies
+    - name: Set up Fastlane
+      run: |
+        gem install fastlane  # Install Fastlane
+
+    # Step 5: Set up Matchfile (and your AWS credentials in it)
+    - name: Set up Matchfile
+      run: |
+        echo 'storage_mode("s3")' > Matchfile
+        echo 's3_bucket("your-s3-bucket-name")' >> Matchfile
+        echo 's3_region("us-west-1")' >> Matchfile  # Set your AWS region here
+        echo 's3_access_key_id("${{ secrets.AWS_ACCESS_KEY_ID }}")' >> Matchfile
+        echo 's3_secret_access_key("${{ secrets.AWS_SECRET_ACCESS_KEY }}")' >> Matchfile
+        echo 'type("appstore")' >> Matchfile  # Can also be "adhoc", "development", etc.
+        echo 'app_identifier("com.yourcompany.yourapp")' >> Matchfile  # Your app identifier
+        echo 'username("your-apple-id@example.com")' >> Matchfile  # Your Apple Developer username
+
+    # Step 6: Use Fastlane to sync certificates and provisioning profiles
+    - name: Sync Certificates and Provisioning Profiles
+      run: |
+        fastlane match appstore --type appstore
+
+    # Step 7: Build and deploy to TestFlight
+    - name: Build and upload to TestFlight
+      run: |
+        fastlane ios beta # This will run the beta lane in your Fastfile
+
+    # Step 8: Clean up (optional)
+    - name: Clean up
+      run: |
+        rm -f Matchfile  # Remove the Matchfile for security reasons
