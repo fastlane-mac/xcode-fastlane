@@ -1,0 +1,9 @@
+s3_bucket("fastlen-profile-cert-bucket")
+s3_region("us-east-1") # Set your AWS region here, e.g., "us-east-1"
+
+storage_mode("s3")
+
+type("appstore") # The default type, can be: appstore, adhoc, enterprise or development
+
+app_identifier(["com.thinksys.xcodedemo"]) # Add your app identifier here
+username("vashistha.shaswat@thinksys.com") # Your Apple Developer Portal username
