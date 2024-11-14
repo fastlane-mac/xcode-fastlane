@@ -1,70 +1,57 @@
-name: Build and Deploy to TestFlight
+name: iOS Deploy to TestFlight
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: macos-latest
+
     steps:
-    
-    - name: Checkout code
+    # Checkout the code from the repository
+    - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Install AWS CLI
-      run: |
-        if ! command -v aws &> /dev/null
-        then
-          echo "AWS CLI not found, installing..."
-          brew install awscli
-        else
-          echo "AWS CLI already installed"
-        fi
+    # Set up Ruby environment to use Fastlane
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.0' # Choose a suitable Ruby version for your environment
 
-    - name: Configure AWS CLI
+    # Install Fastlane
+    - name: Install dependencies
+      run: |
+        gem install bundler
+        bundle install
+      working-directory: ./fastlane
+
+    # Setup Fastlane and match from scratch
+    - name: Fastlane Init and Match
       env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+        FASTLANE_USER: ${{ secrets.APPLE_DEVELOPER_USERNAME }}               # Your Apple ID
+        FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }} # Your Apple Application Specific Password
+        MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}         # Password for your match repository
       run: |
-        aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-        aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-        aws configure set default.region $AWS_DEFAULT_REGION
+        # Initialize Fastlane
+        bundle exec fastlane init --force
 
-    - name: Set up Fastlane
-      run: |
-        gem install fastlane
+        # Setup match
+        bundle exec fastlane match init
+        # bundle exec fastlane match development
+        bundle exec fastlane match appstore
+      working-directory: ./fastlane
 
-    - name: Set up Matchfile
+    # Build and deploy the app to TestFlight
+    - name: Build and Upload to TestFlight
       env:
-        S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
-        S3_REGION: ${{ secrets.S3_REGION }}
+        FASTLANE_USER: ${{ secrets.APPLE_ID }}
+        FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.APP_PASSWORD }}
         MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-        APPLE_DEVELOPER_USERNAME: ${{ secrets.APPLE_DEVELOPER_USERNAME }}
       run: |
-        echo 'storage_mode("s3")' > Matchfile
-        echo 's3_bucket("$S3_BUCKET_NAME")' >> Matchfile
-        echo 's3_region("$S3_REGION")' >> Matchfile
-        echo 'type("appstore")' >> Matchfile
-        echo 'app_identifier("com.yourcompany.yourapp")' >> Matchfile
-        echo 'username("$APPLE_DEVELOPER_USERNAME")' >> Matchfile
-
-    - name: Sync Certificates and Provisioning Profiles
-      env:
-        MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-        FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
-      run: |
-        fastlane match appstore --type appstore
-
-    - name: Build and upload to TestFlight
-      env:
-        FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
-      run: |
-        fastlane ios beta
-
-    - name: Clean up
-      run: |
-        rm -f Matchfile
+        bundle exec fastlane match appstore
+        bundle exec fastlane build
+        bundle exec fastlane pilot upload
+      working-directory: ./fastlane
