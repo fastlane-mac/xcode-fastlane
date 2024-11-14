@@ -36,7 +36,7 @@ jobs:
         MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}         # Password for your match repository
       run: |
         # Initialize Fastlane
-        bundle exec fastlane init --force
+        bundle exec fastlane init
 
         # Setup match
         bundle exec fastlane match init
