@@ -89,7 +89,7 @@ jobs:
             )
 
             # Use match for managing provisioning profiles and certificates
-            match(type: "appstore")
+            match(type: "appstore",readonly: true)
 
             # Build the app
             build_app(
