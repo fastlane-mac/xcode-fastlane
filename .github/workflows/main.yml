@@ -45,6 +45,18 @@ jobs:
         gem install bundler
         bundle install
         gem install fastlane
+        
+   # Set up Apple Developer API Key (combine secrets to create the api_key.json file)
+    - name: Set up Apple Developer API Key
+      run: |
+          echo '{
+            "key_id": "${{ secrets.FASTLANE_API_KEY_KEY_ID }}",
+            "issuer_id": "${{ secrets.FASTLANE_API_KEY_ISSUER_ID }}",
+            "path": "./api_key.p8"
+          }' > api_key.json
+          echo "${{ secrets.FASTLANE_API_KEY_P8 }}" > api_key.p8
+          locate api_key.p8
+          ls
 
     - name: Configure Environment Variables based on Branch
       id: setup_env
