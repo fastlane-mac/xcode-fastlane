@@ -94,8 +94,6 @@ jobs:
             match(
               type: "appstore",
               storage_mode: "s3",
-              s3_bucket: "${{ secrets.S3_BUCKET_NAME }}",
-              s3_region: "${{ secrets.AWS_REGION }}",
               app_identifier: ENV['BUNDLE_ID'],
               readonly: true,
               username: ENV['FASTLANE_APPLE_ID'],
