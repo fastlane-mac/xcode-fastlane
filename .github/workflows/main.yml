@@ -93,14 +93,7 @@ jobs:
             )
 
             # Use match for managing provisioning profiles and certificates
-            match(
-              type: "appstore",
-              storage_mode: "s3",
-              app_identifier: ENV['BUNDLE_ID'],
-              readonly: true,
-              username: ENV['FASTLANE_APPLE_ID'],
-              # team_id: ENV['TEAM_ID']
-            )
+            match(type: "appstore")
 
             # Build the app
             build_app(
