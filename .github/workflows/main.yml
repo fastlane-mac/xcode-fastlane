@@ -89,10 +89,7 @@ jobs:
             )
 
             # Use match for managing provisioning profiles and certificates
-            match(
-              type: "appstore",
-              password: ENV["MATCH_PASSWORD"] 
-            )
+            match(type: "appstore")
 
             # Build the app
             build_app(
