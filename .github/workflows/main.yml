@@ -1,11 +1,13 @@
 name: iOS CI/CD Pipeline
 
+# on:
+#   push:
+#     branches:
+#       - main
+#       # - staging
+#       ## - production
 on:
-  push:
-    branches:
-      - main
-      # - staging
-      ## - production
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
