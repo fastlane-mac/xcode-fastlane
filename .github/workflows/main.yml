@@ -29,15 +29,19 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Set Up Ruby Environment
+   # 2. Set up Ruby (for Fastlane)
+    - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '2.7'
+        ruby-version: '3.0' # Specify your Ruby version here
+        bundler-cache: true  # Caches installed gems for future runs
 
+    # 3. Install dependencies (if you have a Gemfile and CocoaPods)
     - name: Install dependencies
       run: |
         gem install bundler
         bundle install
+        gem install fastlane
 
     - name: Configure Environment Variables based on Branch
       id: setup_env
