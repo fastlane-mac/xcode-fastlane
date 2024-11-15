@@ -69,6 +69,7 @@ jobs:
         EOF
         echo "[default]" > ~/.aws/config
         echo "region=${{ secrets.AWS_REGION }}" >> ~/.aws/config
+        aws s3 ls
 
     - name: Create Dynamic Fastlane Configuration
       run: |
