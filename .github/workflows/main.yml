@@ -73,6 +73,7 @@ jobs:
 
         cat ~/.aws/credentials
         cat ~/.aws/config
+        aws --version
         aws s3 ls
 
     - name: Create Dynamic Fastlane Configuration
