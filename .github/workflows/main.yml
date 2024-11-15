@@ -123,8 +123,8 @@ jobs:
     - name: checking Fastfile Configuration
       run: cat ./fastlane/Fastfile
 
-    # - name: Build and Deploy to TestFlight
-    #   run: bundle exec fastlane beta
+    - name: Build and Deploy to TestFlight
+      run: bundle exec fastlane beta
 
     # - name: Notify Success
     #   if: success()
