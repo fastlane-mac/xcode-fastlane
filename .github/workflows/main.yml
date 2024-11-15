@@ -23,7 +23,7 @@ jobs:
       API_ISSUER_ID: ${{ secrets.FASTLANE_API_ISSUER_ID }}
       FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
       FASTLANE_API_KEY_PATH: ${{ secrets.FASTLANE_API_KEY_PATH }}
-      # MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
       ITC_TEAM_ID: ${{ secrets.ITC_TEAM_ID }}
       FASTLANE_API_KEY_KEY_ID: ${{ secrets.FASTLANE_API_KEY_KEY_ID }}",
       FASTLANE_API_KEY_ISSUER_ID: ${{ secrets.FASTLANE_API_KEY_ISSUER_ID }}",
