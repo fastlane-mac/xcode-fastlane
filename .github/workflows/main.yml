@@ -1,57 +1,127 @@
-name: iOS Deploy to TestFlight
+name: iOS CI/CD Pipeline
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
+      # - staging
+      # - production
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: macos-latest
 
-    steps:
-    # Checkout the code from the repository
-    - name: Checkout repository
-      uses: actions/checkout@v3
+    env:
+      APP_IDENTIFIER: com.thinksys.xcodemo
+      # APP_IDENTIFIER: ${{ github.event.repository.name }}  # Bundle Identifier derived from repo name
+      APPLE_DEVELOPER_ACCOUNT: ${{ secrets.APPLE_DEVELOPER_ACCOUNT }}
+      FASTLANE_APPLE_ID: ${{ secrets.FASTLANE_APPLE_ID }}
+      TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      API_KEY_ID: ${{ secrets.FASTLANE_API_KEY_ID }}
+      API_ISSUER_ID: ${{ secrets.FASTLANE_API_ISSUER_ID }}
+      FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+      FASTLANE_API_KEY_PATH: ${{ secrets.FASTLANE_API_KEY_PATH }}
+      # ITC_TEAM_ID: ${{ secrets.ITC_TEAM_ID }}
 
-    # Set up Ruby environment to use Fastlane
-    - name: Set up Ruby
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Set Up Ruby Environment
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: '3.0' # Choose a suitable Ruby version for your environment
+        ruby-version: '2.7'
 
-    # Install Fastlane
     - name: Install dependencies
       run: |
         gem install bundler
         bundle install
-      working-directory: ./fastlane
 
-    # Setup Fastlane and match from scratch
-    - name: Fastlane Init and Match
-      env:
-        FASTLANE_USER: ${{ secrets.APPLE_DEVELOPER_USERNAME }}               # Your Apple ID
-        FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }} # Your Apple Application Specific Password
-        MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}         # Password for your match repository
+    - name: Configure Environment Variables based on Branch
+      id: setup_env
       run: |
-        # Initialize Fastlane
-        bundle exec fastlane init
+          echo "APP_ENV=development" >> $GITHUB_ENV
+          echo "PROFILE=Development_Profile.mobileprovision" >> $GITHUB_ENV
+          echo "CERTIFICATE=Dev_Certificate" >> $GITHUB_ENV
+          echo "BUNDLE_ID=com.thinksys.xcode" >> $GITHUB_ENV
+          echo "TESTFLIGHT_GROUP=InternalTesters" >> $GITHUB_ENV
 
-        # Setup match
-        bundle exec fastlane match init
-        # bundle exec fastlane match development
-        bundle exec fastlane match appstore
-      working-directory: ./fastlane
 
-    # Build and deploy the app to TestFlight
-    - name: Build and Upload to TestFlight
+    - name: Set Up AWS Credentials
       env:
-        FASTLANE_USER: ${{ secrets.APPLE_ID }}
-        FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.APP_PASSWORD }}
-        MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
       run: |
-        bundle exec fastlane match appstore
-        bundle exec fastlane build
-        bundle exec fastlane pilot upload
-      working-directory: ./fastlane
+        mkdir -p ~/.aws
+        cat <<EOF > ~/.aws/credentials
+        [default]
+        aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        EOF
+        echo "[default]" > ~/.aws/config
+        echo "region=${{ secrets.AWS_REGION }}" >> ~/.aws/config
+
+    - name: Create Dynamic Fastlane Configuration
+      run: |
+        mkdir -p ./fastlane
+        cat <<EOF > ./fastlane/Appfile
+        apple_id("${{ secrets.FASTLANE_APPLE_ID }}")
+        team_id("${{ secrets.APPLE_TEAM_ID }}")
+        # itc_team_id("${{ secrets.ITC_TEAM_ID }}")
+        app_identifier("${{ env.BUNDLE_ID }}")
+        api_key_path("${{ secrets.FASTLANE_API_KEY_PATH }}")
+        EOF
+        
+        cat <<EOF > ./fastlane/Fastfile
+        default_platform(:ios)
+
+        platform :ios do
+          desc "Build and deploy to TestFlight"
+          lane :beta do
+            # Increment the build number
+            increment_build_number(
+              xcodeproj: "MyApp.xcodeproj"
+            )
+
+            # Use match for managing provisioning profiles and certificates
+            match(
+              type: "appstore",
+              storage_mode: "s3",
+              bucket: "${{ secrets.S3_BUCKET_NAME }}",
+              region: "${{ secrets.AWS_REGION }}",
+              app_identifier: ENV['BUNDLE_ID'],
+              readonly: true,
+              username: ENV['FASTLANE_APPLE_ID'],
+              team_id: ENV['TEAM_ID']
+            )
+
+            # Build the app
+            build_app(
+              # workspace: "MyApp.xcworkspace",
+              scheme: "Xcode Demo",
+              # export_method: "app-store",
+              # output_name: "MyApp.ipa"
+            )
+
+            # Upload to TestFlight
+            upload_to_testflight(
+              username: ENV['FASTLANE_APPLE_ID']
+              # skip_waiting_for_build_processing: true,
+              # groups: ENV['TESTFLIGHT_GROUP']
+            )
+          end
+        end
+        EOF
+    
+    - name: checking Fastfile Configuration
+      run: cat ./fastlane/Fastfile
+
+    # - name: Build and Deploy to TestFlight
+    #   run: bundle exec fastlane beta
+
+    # - name: Notify Success
+    #   if: success()
+    #   run: echo "iOS Application successfully released to TestFlight."
