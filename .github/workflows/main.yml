@@ -112,7 +112,7 @@ jobs:
               )
               
             # Use match for managing provisioning profiles and certificates
-            match(type: "appstore",readonly: false,api_key: api_key,team_id="${{secrets.TEAM_ID}}")
+            match(type: "appstore",readonly: false,api_key: api_key,team_id:"${{secrets.TEAM_ID}}")
 
             # Build the app
             build_app(
