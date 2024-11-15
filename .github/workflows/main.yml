@@ -86,7 +86,6 @@ jobs:
         team_id("${{ secrets.APPLE_TEAM_ID }}")
         itc_team_id("${{ secrets.ITC_TEAM_ID }}")
         app_identifier("${{ env.BUNDLE_ID }}")
-        api_key_path("${{ secrets.FASTLANE_API_KEY_PATH }}")
         EOF
         
         cat <<EOF > ./fastlane/Fastfile
