@@ -54,27 +54,19 @@ jobs:
           echo "BUNDLE_ID=com.thinksys.xcode" >> $GITHUB_ENV
           echo "TESTFLIGHT_GROUP=InternalTesters" >> $GITHUB_ENV
 
-
-    - name: Set Up AWS Credentials
+    # Configure AWS CLI
+    - name: Configure AWS CLI
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: ${{ secrets.AWS_REGION }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       run: |
-        mkdir -p ~/.aws
-        cat <<EOF > ~/.aws/credentials
-        [default]
-        aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        EOF
-        echo "[default]" > ~/.aws/config
-        echo "region=us-east-1" >> ~/.aws/config
-        echo "output=json" >> ~/.aws/config
+        aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+        aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+        aws configure set default.region $AWS_DEFAULT_REGION
 
-        cat ~/.aws/credentials
-        cat ~/.aws/config
-        aws --version
-        aws s3 ls
+    - name: check if aws cli works
+      run: aws s3 ls
 
     - name: Create Dynamic Fastlane Configuration
       run: |
