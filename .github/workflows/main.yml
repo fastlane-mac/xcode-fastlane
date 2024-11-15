@@ -23,6 +23,7 @@ jobs:
       API_ISSUER_ID: ${{ secrets.FASTLANE_API_ISSUER_ID }}
       FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
       FASTLANE_API_KEY_PATH: ${{ secrets.FASTLANE_API_KEY_PATH }}
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
       # ITC_TEAM_ID: ${{ secrets.ITC_TEAM_ID }}
 
     steps:
@@ -88,7 +89,10 @@ jobs:
             )
 
             # Use match for managing provisioning profiles and certificates
-            match(type: "appstore",password: ${{ secrets.MATCH_PASSWORD }} )
+            match(
+              type: "appstore",
+              password: ENV["MATCH_PASSWORD"] 
+            )
 
             # Build the app
             build_app(
