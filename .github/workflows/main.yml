@@ -68,7 +68,8 @@ jobs:
         aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}
         EOF
         echo "[default]" > ~/.aws/config
-        echo "region=${{ secrets.AWS_REGION }}" >> ~/.aws/config
+        echo "region=us-east-1" >> ~/.aws/config
+        echo "output=json" >> ~/.aws/config
 
         cat ~/.aws/credentials
         cat ~/.aws/config
