@@ -78,6 +78,14 @@ jobs:
         aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
         aws configure set default.region $AWS_DEFAULT_REGION
 
+    - name: Create and unlock keychain
+      run: |
+        security create-keychain -p ${{ secrets.KEYCHAIN_PASSWORD }} /Users/runner/Library/Keychains/ci-temp.keychain-db
+        security unlock-keychain -p ${{ secrets.KEYCHAIN_PASSWORD }} /Users/runner/Library/Keychains/ci-temp.keychain-db
+        security list-keychains -s /Users/runner/Library/Keychains/ci-temp.keychain-db
+        security default-keychain -s /Users/runner/Library/Keychains/ci-temp.keychain-db
+        security set-keychain-settings -t 3600 -l /Users/runner/Library/Keychains/ci-temp.keychain-db
+        
     - name: Create Dynamic Fastlane Configuration
       run: |
         mkdir -p ./fastlane
@@ -99,16 +107,6 @@ jobs:
         platform :ios do
           desc "Build and deploy to TestFlight"
           lane :beta do
-            #Create Keychain for Match
-            create_keychain(
-              name: "ci-temp.keychain",
-              password: "{{secrets.KEYCHAIN_PASSWORD}}", # Use your custom password here
-              default_keychain: true,
-              unlock: true,
-              timeout: 3600,
-              lock_when_sleeps: false
-            )
-            
             # Increment the build number
             increment_build_number(
               xcodeproj: "Xcode Demo.xcodeproj"
@@ -121,7 +119,7 @@ jobs:
               )
               
             # Use match for managing provisioning profiles and certificates
-            match(type: "appstore",readonly: false,api_key: api_key,team_id:"${{secrets.TEAM_ID}}",keychain_name: "ci-temp.keychain",keychain_password: "${{secrets.KEYCHAIN_PASSWORD}}")
+            match(type: "appstore",readonly: false,api_key: api_key,team_id:"${{secrets.TEAM_ID}}",keychain_name: "ci-temp.keychain-db",keychain_password: "${{secrets.KEYCHAIN_PASSWORD}}")
 
             # Build the app
             build_app(
