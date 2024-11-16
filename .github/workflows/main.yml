@@ -107,11 +107,19 @@ jobs:
         platform :ios do
           desc "Build and deploy to TestFlight"
           lane :beta do
-            # Increment the build number
-            increment_build_number(
-              xcodeproj: "Xcode Demo.xcodeproj",
-              plist_path: "Xcode Demo/Info.plist"
+             # Increment the build number
+             # Debug: Check the current build number before incrementing
+             current_build_number = get_build_number(xcodeproj: "Xcode Demo.xcodeproj")
+             puts "Current Build Number before increment: #{current_build_number}"
+
+             # Increment the build number
+             increment_build_number(
+               xcodeproj: "Xcode Demo.xcodeproj"
             )
+
+            # Debug: Check the current build number after incrementing
+            new_build_number = get_build_number(xcodeproj: "Xcode Demo.xcodeproj")
+            puts "Current Build Number after increment: #{new_build_number}"
 
             # Debug output to check the build number
             build_number = get_build_number(xcodeproj: "Xcode Demo.xcodeproj")
