@@ -131,8 +131,8 @@ jobs:
 
             # Upload to TestFlight
             upload_to_testflight(
-              api_key_path: "./api_key.json"
-              # username: ENV['FASTLANE_APPLE_ID']
+              # api_key_path: "./api_key.json"
+              username: ENV['FASTLANE_APPLE_ID']
               # skip_waiting_for_build_processing: true,
               # groups: ENV['TESTFLIGHT_GROUP']
             )
