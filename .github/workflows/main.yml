@@ -138,6 +138,9 @@ jobs:
               # skip_waiting_for_build_processing: true,
               # groups: ENV['TESTFLIGHT_GROUP']
             )
+
+            #Delete temp keychain
+            delete_keychain(name: "ci-temp.keychain")
           end
         end
         EOF
@@ -146,8 +149,8 @@ jobs:
       run: cat ./fastlane/Fastfile
 
     - name: Build and Deploy to TestFlight
-      run: bundle exec fastlane beta
+      run: bundle exec fastlane ios beta
 
-    # - name: Notify Success
-    #   if: success()
-    #   run: echo "iOS Application successfully released to TestFlight."
+    - name: Notify Success
+      if: success()
+      run: echo "iOS Application successfully released to TestFlight."
