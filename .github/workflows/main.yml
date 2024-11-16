@@ -109,7 +109,7 @@ jobs:
           lane :beta do
              # Increment the build number
              # Debug: Check the current build number before incrementing
-             current_build_number = get_build_number(xcodeproj: "Xcode Demo.xcodeproj")
+             current_build_number = get_build_number(xcodeproj: "Xcode Demo.xcodeproj").to_i
              puts "Current Build Number before increment: #{current_build_number}"
 
              # Increment the build number
