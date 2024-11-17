@@ -133,7 +133,14 @@ jobs:
             #   )
               
             # Use match for managing provisioning profiles and certificates
-            # match(type: "appstore",readonly: false,api_key: api_key,team_id:"${{secrets.TEAM_ID}}",keychain_name: "ci-temp.keychain-db",keychain_password: "${{secrets.KEYCHAIN_PASSWORD}}")
+            # match(
+              #   type: "appstore",
+              #   readonly: false,
+              #   api_key: api_key,
+              #   team_id:"${{secrets.TEAM_ID}}",
+              #   keychain_name: "ci-temp.keychain-db",
+              #   keychain_password: "${{secrets.KEYCHAIN_PASSWORD}}"
+              # )
 
             # Build the app
             # build_app(
