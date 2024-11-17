@@ -1,11 +1,5 @@
 name: iOS CI/CD Pipeline
 
-# on:
-#   push:
-#     branches:
-#       - main
-#       # - staging
-#       ## - production
 on:
   workflow_dispatch:
 
@@ -15,7 +9,6 @@ jobs:
 
     env:
       APP_IDENTIFIER: com.thinksys.xcodemo
-      # APP_IDENTIFIER: ${{ github.event.repository.name }}  # Bundle Identifier derived from repo name
       APPLE_DEVELOPER_ACCOUNT: ${{ secrets.APPLE_DEVELOPER_ACCOUNT }}
       FASTLANE_APPLE_ID: ${{ secrets.FASTLANE_APPLE_ID }}
       TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
@@ -139,12 +132,10 @@ jobs:
             )
 
             # Upload to TestFlight
-            # upload_to_testflight(
-              # api_key_path: "./api_key.json"
-              # username: ENV['FASTLANE_APPLE_ID']
+            upload_to_testflight(
+              username: ENV['FASTLANE_APPLE_ID']
               # skip_waiting_for_build_processing: true,
-              # groups: ENV['TESTFLIGHT_GROUP']
-            # )
+            )
 
             #Delete temp keychain
             delete_keychain(name: "ci-temp.keychain")
