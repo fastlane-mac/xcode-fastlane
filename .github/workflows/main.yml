@@ -18,8 +18,9 @@ jobs:
       FASTLANE_API_KEY_PATH: ${{ secrets.FASTLANE_API_KEY_PATH }}
       MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
       ITC_TEAM_ID: ${{ secrets.ITC_TEAM_ID }}
-      FASTLANE_API_KEY_KEY_ID: ${{ secrets.FASTLANE_API_KEY_KEY_ID }}",
-      FASTLANE_API_KEY_ISSUER_ID: ${{ secrets.FASTLANE_API_KEY_ISSUER_ID }}",
+      FASTLANE_API_KEY_KEY_ID: ${{ secrets.FASTLANE_API_KEY_KEY_ID }},
+      FASTLANE_API_KEY_ISSUER_ID: ${{ secrets.FASTLANE_API_KEY_ISSUER_ID }},
+      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }},
 
     steps:
     - name: Checkout code
@@ -104,6 +105,10 @@ jobs:
         platform :ios do
           desc "Build and deploy to TestFlight"
           lane :beta do
+            app_identifier = "${{ env.APP_IDENTIFIER }}"
+            username = ENV['FASTLANE_APPLE_ID']  # Apple ID username
+            password = ENV['FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD']  # App-specific password
+            
             #Setting api_key for Build Number and Match
             api_key = app_store_connect_api_key(
                 key_id: "${{secrets.FASTLANE_API_KEY_KEY_ID}}",
@@ -129,7 +134,7 @@ jobs:
       
             # Create the app if it does not exist
             produce(
-              api_key: api_key,
+              username: username,
               app_identifier: "${{ env.APP_IDENTIFIER }}",
               app_name: "New-Xcode-App",
               language: "English",
