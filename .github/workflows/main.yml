@@ -105,7 +105,7 @@ jobs:
         platform :ios do
           desc "Build and deploy to TestFlight"
           lane :beta do
-            app_identifier = "${{ env.APP_IDENTIFIER }}"
+            app_identifier = ENV['APP_IDENTIFIER']
             username = ENV['FASTLANE_APPLE_ID']  # Apple ID username
             password = ENV['FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD']  # App-specific password
 
@@ -126,21 +126,23 @@ jobs:
               UI.error("Error checking app identifier: #{e.message}")
             end
 
-           if app_exists
-            UI.message("✅ App identifier #{app_identifier} exists. Proceeding with certificate setup, build, and deployment.")
-           else
-            UI.message("🚫 App identifier #{app_identifier} does not exist. Creating a new app.")
-      
-            # Create the app if it does not exist
-            produce(
-              username: username,
-              app_identifier: "${{ env.APP_IDENTIFIER }}",
-              app_name: "New-Xcode-App",
-              language: "English",
-              sku: ENV['SKU'],
-              team_id: ENV['TEAM_ID']
-            )
-          end
+            if app_exists
+             UI.message("✅ App identifier #{app_identifier} exists. Proceeding with certificate setup, build, and deployment.")
+            else
+             UI.message("🚫 App identifier #{app_identifier} does not exist. Creating a new app.")
+            end
+           
+            # # Create the app if it does not exist
+            # produce(
+            #   username: username,
+            #   app_identifier: app_identifier,
+            #   app_name: "New-Xcode-App",
+            #   language: "English",
+            #   sku: ENV['SKU'],
+            #   team_id: ENV['TEAM_ID']
+            #  )
+            # end
+          
             #Setting api_key for Build Number and Match
             api_key = app_store_connect_api_key(
                 key_id: "${{secrets.FASTLANE_API_KEY_KEY_ID}}",
