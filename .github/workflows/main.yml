@@ -116,7 +116,7 @@ jobs:
             # Update the build number in the project
             increment_build_number(
                 build_number: new_build_number.to_s,
-                xcodeproj: "YourProject.xcodeproj"
+                # xcodeproj: "YourProject.xcodeproj"
              )
 
             # Print the new build number for debugging
