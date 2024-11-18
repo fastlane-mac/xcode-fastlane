@@ -104,6 +104,9 @@ jobs:
         platform :ios do
           desc "Build and deploy to TestFlight"
           lane :beta do
+            username: "${{ secrets.FASTLANE_APPLE_ID }}"
+            app_identifier: "${{ env.APP_IDENTIFIER }}"
+            
             # Function to check if the app exists in the Apple Developer Portal
             app_exists = false
             begin
