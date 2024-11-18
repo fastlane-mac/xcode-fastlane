@@ -91,10 +91,10 @@ jobs:
 
         # Create the Matchfile
         cat <<EOF > ./fastlane/Matchfile
-        s3_bucket("${{secrets.S3_BUCKET_NAME}}")
-        storage_mode("s3")
-        type("appstore") # The default type, can be: appstore, adhoc, enterprise or development
-        app_identifier([ENV["APP_IDENTIFIER"])
+        s3_bucket("${{secrets.S3_BUCKET_NAME}}"),
+        storage_mode("s3"),
+        type("appstore"), # The default type, can be: appstore, adhoc, enterprise or development
+        app_identifier([ENV["APP_IDENTIFIER"]),
         username("ENV['FASTLANE_APPLE_ID']") # Your Apple Developer Portal username
         EOF
 
