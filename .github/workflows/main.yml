@@ -186,11 +186,11 @@ jobs:
             )
 
             # Upload to TestFlight
-            upload_to_testflight(
-              username: ENV['FASTLANE_APPLE_ID'],
-              skip_waiting_for_build_processing: true,
-              app_identifier: ENV['APP_IDENTIFIER']
-            )
+            # upload_to_testflight(
+            #   username: ENV['FASTLANE_APPLE_ID'],
+            #   skip_waiting_for_build_processing: true,
+            #   app_identifier: ENV['APP_IDENTIFIER']
+            # )
 
             #Delete temp keychain
             delete_keychain(name: "ci-temp.keychain")
