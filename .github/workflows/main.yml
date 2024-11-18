@@ -8,7 +8,7 @@ jobs:
     runs-on: macos-latest
 
     env:
-      APP_IDENTIFIER: com.thinksys.xcodedemo
+      APP_IDENTIFIER: ${{ secrets.APP_IDENTIFIER }}
       APPLE_DEVELOPER_ACCOUNT: ${{ secrets.APPLE_DEVELOPER_ACCOUNT }}
       FASTLANE_APPLE_ID: ${{ secrets.FASTLANE_APPLE_ID }}
       TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
@@ -20,6 +20,8 @@ jobs:
       ITC_TEAM_ID: ${{ secrets.ITC_TEAM_ID }}
       FASTLANE_API_KEY_KEY_ID: ${{ secrets.FASTLANE_API_KEY_KEY_ID }}",
       FASTLANE_API_KEY_ISSUER_ID: ${{ secrets.FASTLANE_API_KEY_ISSUER_ID }}",
+      SKU: ${{ secrets.SKU }}
+      APP_NAME: ${{ secrets.APP_NAME }}
 
     steps:
     - name: Checkout code
@@ -104,6 +106,15 @@ jobs:
         platform :ios do
           desc "Build and deploy to TestFlight"
           lane :beta do
+            
+            produce(
+              app_identifier: ENV["APP_IDENTIFIER"],
+              app_name: ENV["APP_NAME"],
+              sku: "ENV["SKU"]", # Replace with your app's unique SKU
+              language: "English" # Replace with your preferred language
+            )
+
+
             #Setting api_key for Build Number and Match
             api_key = app_store_connect_api_key(
                 key_id: "${{secrets.FASTLANE_API_KEY_KEY_ID}}",
