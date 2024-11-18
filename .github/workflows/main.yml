@@ -108,6 +108,8 @@ jobs:
             app_identifier = "${{ env.APP_IDENTIFIER }}"
             username = ENV['FASTLANE_APPLE_ID']  # Apple ID username
             password = ENV['FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD']  # App-specific password
+
+            login(username: username, password: password)
             
             #Setting api_key for Build Number and Match
             api_key = app_store_connect_api_key(
@@ -115,9 +117,6 @@ jobs:
                 issuer_id: "${{secrets.FASTLANE_API_KEY_ISSUER_ID}}",
                 key_content: "${{secrets.FASTLANE_API_KEY_P8}}"
             )
-            
-            username= "${{ secrets.FASTLANE_APPLE_ID }}"
-            app_identifier= "${{ env.APP_IDENTIFIER }}"
             
             # Function to check if the app exists in the Apple Developer Portal
             app_exists = false
