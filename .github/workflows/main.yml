@@ -117,7 +117,16 @@ jobs:
                 issuer_id: "${{secrets.FASTLANE_API_KEY_ISSUER_ID}}",
                 key_content: "${{secrets.FASTLANE_API_KEY_P8}}"
             )
-            
+
+            # Authenticate using Spaceship with Apple ID and password
+            begin
+              Spaceship::Portal.login(username, password])
+              UI.message("🔑 Successfully logged in to Apple Developer Portal.")
+            rescue => e
+              UI.error("❌ Error logging in to Apple Developer Portal: #{e.message}")
+              exit(1)
+            end
+           
             # Function to check if the app exists in the Apple Developer Portal
             app_exists = false
             begin
