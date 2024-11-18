@@ -139,7 +139,7 @@ jobs:
 
             # Upload to TestFlight
             upload_to_testflight(
-              username: ENV['FASTLANE_APPLE_ID'],
+              username: ENV['FASTLANE_APPLE_ID']
               # skip_waiting_for_build_processing: true
             )
 
