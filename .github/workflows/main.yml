@@ -98,15 +98,6 @@ jobs:
         username("ENV['FASTLANE_APPLE_ID']") # Your Apple Developer Portal username
         EOF
 
-            # Create the Matchfile
-    cat <<EOF > ./fastlane/Matchfile
-
-
-    type("appstore") # The default type, can be: appstore, adhoc, enterprise or development
-    app_identifier(["${{ env.BUNDLE_ID }}"])
-    username("${{ secrets.FASTLANE_APPLE_ID }}") # Your Apple Developer Portal username
-    EOF
-
         cat <<EOF > ./fastlane/Fastfile
         default_platform(:ios)
 
