@@ -109,7 +109,7 @@ jobs:
             username = ENV['FASTLANE_APPLE_ID']  # Apple ID username
             password = ENV['FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD']  # App-specific password
 
-            login(username: username, password: password)
+            # login(username: username, password: password)
             
             #Setting api_key for Build Number and Match
             api_key = app_store_connect_api_key(
