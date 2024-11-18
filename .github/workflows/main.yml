@@ -104,9 +104,6 @@ jobs:
         platform :ios do
           desc "Build and deploy to TestFlight"
           lane :beta do
-            app_identifier = ENV['APP_IDENTIFIER']
-            username = ENV['FASTLANE_APPLE_ID']
-
             # Function to check if the app exists in the Apple Developer Portal
             app_exists = false
             begin
@@ -122,12 +119,12 @@ jobs:
       
             # Create the app if it does not exist
             produce(
-              username: username,
-              app_identifier: app_identifier,
-              app_name: ENV['APP_NAME'],
+              username: "${{ secrets.FASTLANE_APPLE_ID }}",
+              app_identifier: "${{ env.APP_IDENTIFIER }}",
+              app_name: "New-Xcode-App",
               language: "English",
               sku: ENV['SKU'],
-             team_id: ENV['APPLE_TEAM_ID']
+              team_id: ENV['TEAM_ID']
             )
           end
             #Setting api_key for Build Number and Match
