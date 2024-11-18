@@ -120,7 +120,7 @@ jobs:
 
             # Authenticate using Spaceship with Apple ID and password
             begin
-              Spaceship::Portal.login(username, password)
+              Spaceship::Portal.login(ENV['FASTLANE_APPLE_ID'], ENV['FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD'])
               UI.message("🔑 Successfully logged in to Apple Developer Portal.")
             rescue => e
               UI.error("❌ Error logging in to Apple Developer Portal: #{e.message}")
