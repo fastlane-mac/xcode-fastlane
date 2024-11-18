@@ -95,7 +95,7 @@ jobs:
         storage_mode("s3")
         type("appstore")
         app_identifier(["${{ env.APP_IDENTIFIER }}"])
-        username("ENV['FASTLANE_APPLE_ID']") # Your Apple Developer Portal username
+        username("${{ secrets.FASTLANE_APPLE_ID }}") # Your Apple Developer Portal username
         EOF
 
         cat <<EOF > ./fastlane/Fastfile
