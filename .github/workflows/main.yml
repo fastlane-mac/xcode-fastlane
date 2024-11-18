@@ -8,7 +8,7 @@ jobs:
     runs-on: macos-latest
 
     env:
-      APP_IDENTIFIER: com.thinksys.xcodedemo
+      APP_IDENTIFIER: ${{ secrets.APP_IDENTIFIER }}
       APPLE_DEVELOPER_ACCOUNT: ${{ secrets.APPLE_DEVELOPER_ACCOUNT }}
       FASTLANE_APPLE_ID: ${{ secrets.FASTLANE_APPLE_ID }}
       TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
