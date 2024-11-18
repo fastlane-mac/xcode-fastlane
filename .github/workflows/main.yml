@@ -140,7 +140,8 @@ jobs:
             # Upload to TestFlight
             upload_to_testflight(
               username: ENV['FASTLANE_APPLE_ID']
-              # skip_waiting_for_build_processing: true
+              skip_waiting_for_build_processing: true
+              app_identifier: $APP_IDENTIFIER
             )
 
             #Delete temp keychain
