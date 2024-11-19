@@ -1,9 +1,9 @@
 name: iOS CI/CD Pipeline
 
 on:
-  push:
-    branches:
-      - '**'  # This matches all branches
+  # push:
+  #   branches:
+  #     - '**'  # This matches all branches
   # pull_request:
   #   branches:
   #     - '**'  # This matches all branches
