@@ -64,14 +64,14 @@ jobs:
           }' > api_key.json
           echo "${{ secrets.FASTLANE_API_KEY_P8 }}" > api_key.p8
 
-    - name: Configure Environment Variables based on Branch
-      id: setup_env
-      run: |
-          echo "APP_ENV=development" >> $GITHUB_ENV
-          echo "PROFILE=Development_Profile.mobileprovision" >> $GITHUB_ENV
-          echo "CERTIFICATE=Dev_Certificate" >> $GITHUB_ENV
-          echo "BUNDLE_ID=com.thinksys.xcode" >> $GITHUB_ENV
-          echo "TESTFLIGHT_GROUP=InternalTesters" >> $GITHUB_ENV
+    # - name: Configure Environment Variables based on Branch
+    #   id: setup_env
+    #   run: |
+    #       echo "APP_ENV=development" >> $GITHUB_ENV
+    #       echo "PROFILE=Development_Profile.mobileprovision" >> $GITHUB_ENV
+    #       echo "CERTIFICATE=Dev_Certificate" >> $GITHUB_ENV
+    #       echo "BUNDLE_ID=com.thinksys.xcode" >> $GITHUB_ENV
+    #       echo "TESTFLIGHT_GROUP=InternalTesters" >> $GITHUB_ENV
 
     # Configure AWS CLI
     - name: Configure AWS CLI
