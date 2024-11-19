@@ -120,7 +120,7 @@ jobs:
             # Fetch the latest build number from the App Store
             latest_build_number = app_store_build_number(
                 api_key: api_key,
-                app_identifier: ENV["APP_IDENTIFIER"],
+                app_identifier: ENV['APP_IDENTIFIER'],
                 # version: app_version,
                 live: false,
              )
