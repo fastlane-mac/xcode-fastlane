@@ -21,7 +21,7 @@ jobs:
       APP_IDENTIFIER: com.thinksys.xcodedemo
       APPLE_DEVELOPER_ACCOUNT: ${{ secrets.APPLE_DEVELOPER_ACCOUNT }}
       FASTLANE_APPLE_ID: ${{ secrets.FASTLANE_APPLE_ID }}
-      TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      TEAM_ID: ${{ secrets.TEAM_ID }}
       API_KEY_ID: ${{ secrets.FASTLANE_API_KEY_ID }}
       API_ISSUER_ID: ${{ secrets.FASTLANE_API_ISSUER_ID }}
       FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
@@ -88,7 +88,7 @@ jobs:
         mkdir -p ./fastlane
         cat <<EOF > ./fastlane/Appfile
         apple_id("${{ secrets.FASTLANE_APPLE_ID }}")
-        team_id("${{ secrets.APPLE_TEAM_ID }}")
+        team_id("${{ secrets.TEAM_ID }}")
         itc_team_id("${{ secrets.ITC_TEAM_ID }}")
         app_identifier("${{ env.BUNDLE_ID }}")
         EOF
