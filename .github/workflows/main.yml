@@ -20,14 +20,14 @@ jobs:
     env:
       APP_IDENTIFIER: com.thinksys.xcodedemo
       APPLE_DEVELOPER_ACCOUNT: ${{ secrets.APPLE_DEVELOPER_ACCOUNT }}
-      # FASTLANE_APPLE_ID: ${{ secrets.FASTLANE_APPLE_ID }}
+      FASTLANE_APPLE_ID: ${{ secrets.FASTLANE_APPLE_ID }}
       # TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
       API_KEY_ID: ${{ secrets.FASTLANE_API_KEY_ID }}
       API_ISSUER_ID: ${{ secrets.FASTLANE_API_ISSUER_ID }}
       FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
       FASTLANE_API_KEY_PATH: ${{ secrets.FASTLANE_API_KEY_PATH }}
       MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-      ITC_TEAM_ID: ${{ secrets.ITC_TEAM_ID }}
+      # ITC_TEAM_ID: ${{ secrets.ITC_TEAM_ID }}
       FASTLANE_API_KEY_KEY_ID: ${{ secrets.FASTLANE_API_KEY_KEY_ID }},
       FASTLANE_API_KEY_ISSUER_ID: ${{ secrets.FASTLANE_API_KEY_ISSUER_ID }},
       FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }},
@@ -88,9 +88,9 @@ jobs:
         mkdir -p ./fastlane
         cat <<EOF > ./fastlane/Appfile
         apple_id("${{ secrets.FASTLANE_APPLE_ID }}")
-        team_id("${{ secrets.APPLE_TEAM_ID }}")
-        itc_team_id("${{ secrets.ITC_TEAM_ID }}")
-        app_identifier("${{ env.BUNDLE_ID }}")
+        # team_id("${{ secrets.APPLE_TEAM_ID }}")
+        # itc_team_id("${{ secrets.ITC_TEAM_ID }}")
+        app_identifier("${{ env.APP_IDENTIFIER }}")
         EOF
 
         # Create the Matchfile
@@ -99,7 +99,7 @@ jobs:
         storage_mode("s3")
         type("appstore")
         app_identifier(["${{ env.APP_IDENTIFIER }}"])
-        username("${{ secrets.FASTLANE_APPLE_ID }}") # Your Apple Developer Portal username
+        username("${{ secrets.APPLE_DEVELOPER_ACCOUNT }}") # Your Apple Developer Portal username
         EOF
 
         cat <<EOF > ./fastlane/Fastfile
@@ -142,7 +142,7 @@ jobs:
                 type: "appstore",
                 readonly: false,
                 api_key: api_key,
-                team_id:"${{secrets.TEAM_ID}}",
+                # team_id:"${{secrets.TEAM_ID}}",
                 keychain_name: "ci-temp.keychain-db",
                 keychain_password: "${{secrets.KEYCHAIN_PASSWORD}}"
             )
