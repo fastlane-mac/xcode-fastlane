@@ -13,6 +13,10 @@ jobs:
   build-and-deploy:
     runs-on: macos-latest
 
+    concurrency:
+      group: ${{ github.ref }}  # Group jobs by branch
+      cancel-in-progress: true  # Cancel any in-progress job for the same branch if a new push is triggered
+
     env:
       APP_IDENTIFIER: com.thinksys.xcodedemo
       APPLE_DEVELOPER_ACCOUNT: ${{ secrets.APPLE_DEVELOPER_ACCOUNT }}
@@ -33,7 +37,9 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
-
+    - name: Build Step
+      run: echo "Building for branch ${{ github.ref_name }}"
+      
    # 2. Set up Ruby (for Fastlane)
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
