@@ -106,13 +106,6 @@ jobs:
         platform :ios do
           desc "Build and deploy to TestFlight"
           lane :beta do
-            
-            produce(
-              app_identifier: ENV['APP_IDENTIFIER'],
-              app_name: ENV['APP_NAME'],
-              sku: "ENV['SKU']", # Replace with your app's unique SKU
-              language: "English" # Replace with your preferred language
-            )
 
 
             #Setting api_key for Build Number and Match
