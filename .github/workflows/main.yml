@@ -90,7 +90,7 @@ jobs:
         apple_id("${{ secrets.FASTLANE_APPLE_ID }}")
         team_id("${{ secrets.TEAM_ID }}")
         itc_team_id("${{ secrets.ITC_TEAM_ID }}")
-        app_identifier("${{ env.BUNDLE_ID }}")
+        app_identifier("${{ env.APP_IDENTIFIER }}")
         EOF
 
         # Create the Matchfile
