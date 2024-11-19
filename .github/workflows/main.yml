@@ -18,7 +18,7 @@ jobs:
       cancel-in-progress: true  # Cancel any in-progress job for the same branch if a new push is triggered
 
     env:
-      APP_IDENTIFIER: com.thinksys.xcodedemo
+      APP_IDENTIFIER: com.thinksys.covid
       APPLE_DEVELOPER_ACCOUNT: ${{ secrets.APPLE_DEVELOPER_ACCOUNT }}
       FASTLANE_APPLE_ID: ${{ secrets.FASTLANE_APPLE_ID }}
       TEAM_ID: ${{ secrets.TEAM_ID }}
