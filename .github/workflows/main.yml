@@ -157,7 +157,7 @@ jobs:
               export_options: {
                 signingStyle: "automatic",
                 provisioningProfiles: {
-                  ${{ env.APP_IDENTIFIER }} => match appstore ${{ env.APP_IDENTIFIER }}
+                  ${{ env.APP_IDENTIFIER }} => "match appstore #{ENV['APP_IDENTIFIER']}"
                 }
               }
             )
