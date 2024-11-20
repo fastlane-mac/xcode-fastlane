@@ -154,10 +154,10 @@ jobs:
             # Build the app
             build_app(
               scheme: "Github Xcode Demo",
-              export_method: "app-store",
+              export_method: "appstore",
               export_options: {
                 provisioningProfiles: {
-                  "com.thinksys.covid" => "match AppStore com.thinksys.covid"
+                  com.thinksys.covid => match AppStore com.thinksys.covid
                 }
               },
               xcargs: "-allowProvisioningUpdates"
