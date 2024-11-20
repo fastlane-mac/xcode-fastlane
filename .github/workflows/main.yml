@@ -149,7 +149,7 @@ jobs:
 
             # Build the app
             build_app(
-              scheme: "ExampleXcode",
+              scheme: "Xcode Demo",
               codesigning_identity: "Apple Distribution"
             )
 
