@@ -149,7 +149,8 @@ jobs:
 
             # Build the app
             build_app(
-              scheme: "Github Xcode Demo"
+              scheme: "Github Xcode Demo",
+              codesigning_identity: "Apple Distribution"
             )
 
             #Upload to TestFlight
