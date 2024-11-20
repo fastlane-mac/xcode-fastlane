@@ -157,7 +157,7 @@ jobs:
               export_method: "appstore",
               export_options: {
                 provisioningProfiles: {
-                  com.thinksys.covid => match AppStore com.thinksys.covid
+                  "com.thinksys.covid" => "match AppStore com.thinksys.covid"
                 }
               },
               xcargs: "-allowProvisioningUpdates"
