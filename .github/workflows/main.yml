@@ -115,10 +115,6 @@ jobs:
                 key_content: "${{secrets.FASTLANE_API_KEY_P8}}"
             )
             
-            sync_code_signing(
-              type: "appstore", # Use 'appstore' for production or 'adhoc' for testing
-            )
-
             # Fetch the latest build number from App Store
             latest_build_number = nil
             begin
