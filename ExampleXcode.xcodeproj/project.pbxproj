@@ -441,6 +441,7 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = NO;
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.thinksys.covid"
 			};
 			name = Release;
 		};
@@ -503,6 +504,7 @@
 				INFOPLIST_FILE = "ExampleXcodeTests/ExampleXcodeTests-Info.plist";
 				PRODUCT_NAME = ExampleXcodeTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
+				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.thinksys.covid"
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
