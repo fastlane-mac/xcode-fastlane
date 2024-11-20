@@ -153,13 +153,14 @@ jobs:
 
             # Build the app
             build_app(
-              scheme: "Github Xcode Demo"
+              scheme: "Github Xcode Demo",
+              export_method: "app-store",
               export_options: {
-                signingStyle: "automatic",
                 provisioningProfiles: {
-                  ${{ env.APP_IDENTIFIER }} => "match appstore #{ENV['APP_IDENTIFIER']}"
+                  "com.thinksys.covid" => "match AppStore com.thinksys.covid"
                 }
-              }
+              },
+              xcargs: "-allowProvisioningUpdates"
             )
 
             #Upload to TestFlight
