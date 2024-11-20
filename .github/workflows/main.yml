@@ -114,6 +114,10 @@ jobs:
                 issuer_id: "${{secrets.FASTLANE_API_KEY_ISSUER_ID}}",
                 key_content: "${{secrets.FASTLANE_API_KEY_P8}}"
             )
+            
+            sync_code_signing(
+              type: "appstore", # Use 'appstore' for production or 'adhoc' for testing
+            )
 
             # Fetch the latest build number from App Store
             latest_build_number = nil
@@ -150,6 +154,12 @@ jobs:
             # Build the app
             build_app(
               scheme: "Github Xcode Demo"
+              export_options: {
+                signingStyle: "automatic",
+                provisioningProfiles: {
+                  ENV['APP_IDENTIFIER'] => "match appstore ENV['APP_IDENTIFIER']"
+                }
+              }
             )
 
             #Upload to TestFlight
@@ -164,7 +174,7 @@ jobs:
           end
         end
         EOF
-    
+         
     - name: checking Fastfile Configuration
       run: cat ./fastlane/Fastfile
 
