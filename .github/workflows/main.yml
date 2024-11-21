@@ -54,6 +54,7 @@ jobs:
         bundle install
         gem install fastlane
         gem install fastlane-plugin-versioning
+        fastlane add_plugin versioning
 
     - name: Set up Apple Developer API Key
       run: |
@@ -111,6 +112,11 @@ jobs:
                 issuer_id: "${{ secrets.FASTLANE_API_KEY_ISSUER_ID }}",
                 key_content: "${{ secrets.FASTLANE_API_KEY_P8 }}"
             )
+
+            version = get_app_store_version_number(bundle_id: 'com.thinksys.covid')
+            puts "Checking AppStore version number set: #{version}"
+            
+
             # Ensure a valid version number is set
             current_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
             puts "New version number set: #{current_version}"
