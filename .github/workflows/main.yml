@@ -160,7 +160,7 @@ jobs:
             # )
 
             # # Fetch and print the new version number
-            # new_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
+            new_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
             puts "New version number set: #{new_version}"
 
 
