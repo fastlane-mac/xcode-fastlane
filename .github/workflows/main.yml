@@ -148,7 +148,7 @@ jobs:
              
             # Handle versioning
             version_type = ENV['VERSION_TYPE'] || 'patch' # Default to 'patch' if not set
-            current_version = get_version_number(xcodeproj: "YourProject.xcodeproj")
+            current_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
 
             # Split version into parts
             major, minor, patch = current_version.split('.').map(&:to_i)
