@@ -8,6 +8,17 @@ on:
   #   branches:
   #     - '**'  # This matches all branches
   workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Specify version type (major, minor, patch)'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+
 
 jobs:
   build-and-deploy:
