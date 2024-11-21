@@ -126,57 +126,44 @@ jobs:
                 issuer_id: "${{secrets.FASTLANE_API_KEY_ISSUER_ID}}",
                 key_content: "${{secrets.FASTLANE_API_KEY_P8}}"
             )
-            
-            # Fetch the latest build number from App Store
-            latest_build_number = nil
-            begin
-              latest_build_number = app_store_build_number(
-                api_key: api_key,
-                app_identifier: ${{ env.APP_IDENTIFIER }},
-                live: false,
-              )
-            rescue => e
-              puts "No existing build found, starting with build number 1"
-            end
-            # If there is no build number (i.e., first deployment), default to 1
-            new_build_number = (latest_build_number.nil? ? 1 : latest_build_number.to_i + 1)
 
-            # Update the build number in the project
-            increment_build_number(
-                build_number: new_build_number.to_s,
+             # Fetch the latest build number from App Store Connect
+             latest_build_number = nil
+             begin
+               latest_build_number = app_store_build_number(
+               api_key: api_key,
+               app_identifier: ENV['APP_IDENTIFIER'],
+               live: false,
              )
-             
-            # Handle versioning
-            version_type = ENV['VERSION_TYPE'] || 'patch' # Default to 'patch' if not set
-            current_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
+               puts "Latest build number fetched from App Store: #{latest_build_number}"
+            rescue => e
+               puts "No existing build found, starting with build number 1"
+             end
 
-            # Split version into parts
-            major, minor, patch = current_version.split('.').map(&:to_i)
+             # Determine the new build number
+             new_build_number = (latest_build_number.nil? ? 1 : latest_build_number.to_i + 1)
+             puts "New build number calculated: #{new_build_number}"
 
-            # Increment based on the version type
-            case version_type
-            when 'major'
-              major += 1
-              minor = 0
-              patch = 0
-           when 'minor'
-              minor += 1
-              patch = 0
-           when 'patch'
-              patch += 1
-           end
+             # Update the build number in the Xcode project
+             increment_build_number(
+               build_number: new_build_number.to_s,
+             )
+             puts "New build number set: #{new_build_number}"
 
-           # Construct the new version
-           new_version = "#{major}.#{minor}.#{patch}"
+             # Determine the version type (patch, minor, major)
+             version_type = ENV['VERSION_TYPE'] || 'patch' # Default to 'patch' if not set
 
-           # Update the version number in the project
-           increment_version_number(
-             version_number: new_version,
-             xcodeproj: "Xcode Demo.xcodeproj"
-           )
+            # Automatically increment the version number
+            increment_version_number(
+              bump_type: version_type, # Options: 'patch', 'minor', 'major'
+              xcodeproj: "Xcode Demo.xcodeproj"
+            )
 
-            puts "New version number: #{new_version}"
-            # Print the new build number for debugging
+            # Fetch and print the new version number
+            new_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
+            puts "New version number set: #{new_version}"
+
+
             puts "New build number after incrementing: #{new_build_number}"
               
             # Use match for managing provisioning profiles and certificates
