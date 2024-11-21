@@ -113,6 +113,8 @@ jobs:
             )
             # Ensure a valid version number is set
             current_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
+            puts "New version number set: #{current_version}"
+            
             if current_version.empty? || !current_version.match?(/^\d+(\.\d+)*$/)
               puts "Current version is invalid or empty. Setting default version to 1.0.0"
               increment_version_number(
