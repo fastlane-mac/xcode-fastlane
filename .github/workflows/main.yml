@@ -144,7 +144,37 @@ jobs:
             increment_build_number(
                 build_number: new_build_number.to_s,
              )
+             
+            # Handle versioning
+            version_type = ENV['VERSION_TYPE'] || 'patch' # Default to 'patch' if not set
+            current_version = get_version_number(xcodeproj: "YourProject.xcodeproj")
 
+            # Split version into parts
+            major, minor, patch = current_version.split('.').map(&:to_i)
+
+            # Increment based on the version type
+            case version_type
+            when 'major'
+              major += 1
+              minor = 0
+              patch = 0
+           when 'minor'
+              minor += 1
+              patch = 0
+           when 'patch'
+              patch += 1
+           end
+
+           # Construct the new version
+           new_version = "#{major}.#{minor}.#{patch}"
+
+           # Update the version number in the project
+           increment_version_number(
+             version_number: new_version,
+             xcodeproj: "Xcode Demo.xcodeproj"
+           )
+
+            puts "New version number: #{new_version}"
             # Print the new build number for debugging
             puts "New build number after incrementing: #{new_build_number}"
               
