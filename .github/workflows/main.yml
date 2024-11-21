@@ -150,17 +150,17 @@ jobs:
              )
              puts "New build number set: #{new_build_number}"
 
-             # Determine the version type (patch, minor, major)
-             version_type = ENV['VERSION_TYPE'] || 'patch' # Default to 'patch' if not set
+            #  # Determine the version type (patch, minor, major)
+            #  version_type = ENV['VERSION_TYPE'] || 'patch' # Default to 'patch' if not set
 
-            # Automatically increment the version number
-            increment_version_number(
-              bump_type: version_type, # Options: 'patch', 'minor', 'major'
-              xcodeproj: "Xcode Demo.xcodeproj"
-            )
+            # # Automatically increment the version number
+            # increment_version_number(
+            #   bump_type: version_type, # Options: 'patch', 'minor', 'major'
+            #   xcodeproj: "Xcode Demo.xcodeproj"
+            # )
 
-            # Fetch and print the new version number
-            new_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
+            # # Fetch and print the new version number
+            # new_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
             puts "New version number set: #{new_version}"
 
 
