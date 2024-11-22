@@ -112,31 +112,31 @@ jobs:
                 key_content: "${{ secrets.FASTLANE_API_KEY_P8 }}"
             )
 
-            version = get_app_store_version_number(bundle_id: 'com.thinksys.covid')
-            puts "Checking AppStore version number set: #{version}"
+            # version = get_app_store_version_number(bundle_id: 'com.thinksys.covid')
+            # puts "Checking AppStore version number set: #{version}"
             
 
-            # Ensure a valid version number is set
-            current_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
-            puts "New version number set: #{current_version}"
+            # # Ensure a valid version number is set
+            # current_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
+            # puts "New version number set: #{current_version}"
             
-            if current_version.empty? || !current_version.match?(/^\d+(\.\d+)*$/)
-              puts "Current version is invalid or empty. Setting default version to 1.0.0"
-              increment_version_number(
-                version_number: "1.0.0",
-                xcodeproj: "Xcode Demo.xcodeproj"
-              )
-            end
+            # if current_version.empty? || !current_version.match?(/^\d+(\.\d+)*$/)
+            #   puts "Current version is invalid or empty. Setting default version to 1.0.0"
+            #   increment_version_number(
+            #     version_number: "1.0.0",
+            #     xcodeproj: "Xcode Demo.xcodeproj"
+            #   )
+            # end
 
-            # Increment version number based on version_type input
-            bump_type = ENV['VERSION_TYPE'] || 'patch'
-            increment_version_number(
-              bump_type: bump_type,
-              xcodeproj: "Xcode Demo.xcodeproj"
-            )
+            # # Increment version number based on version_type input
+            # bump_type = ENV['VERSION_TYPE'] || 'patch'
+            # increment_version_number(
+            #   bump_type: bump_type,
+            #   xcodeproj: "Xcode Demo.xcodeproj"
+            # )
 
-            new_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
-            puts "New version number set: #{new_version}"
+            # new_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
+            # puts "New version number set: #{new_version}"
             
 
 
@@ -183,7 +183,8 @@ jobs:
             upload_to_testflight(
               username: ENV['FASTLANE_APPLE_ID'],
               skip_waiting_for_build_processing: true,
-              app_identifier: ENV['APP_IDENTIFIER']
+              app_identifier: ENV['APP_IDENTIFIER'],
+              app_version: "2.0.0"
             )
 
             # Delete temp keychain
