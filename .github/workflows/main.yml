@@ -119,7 +119,7 @@ jobs:
               app_name: "fastlane-demo-2",
               language: "English",
               app_version: "1.0.1",
-              sku: "8290819282",
+              sku: "8290819282"
             )
             # version = get_app_store_version_number(app_identifier: "com.thinksys.covid",platform: "ios")
             # puts "Checking AppStore version number set: #{version}"
