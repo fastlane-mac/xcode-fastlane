@@ -147,7 +147,7 @@ jobs:
             bump_type = ENV['VERSION_TYPE'] || 'patch'
             new_version = increment_version_number(
               xcodeproj: "Xcode Demo.xcodeproj",
-              bump_type: bump_type # Change to "minor" or "major" if needed
+              bump_type: bump_type, # Change to "minor" or "major" if needed
               version_number: "1.0.1"
             )
             puts "Bumped version to: #{new_version}"
