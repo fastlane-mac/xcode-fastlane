@@ -198,7 +198,7 @@ jobs:
               username: ENV['FASTLANE_APPLE_ID'],
               skip_waiting_for_build_processing: true,
               app_identifier: ENV['APP_IDENTIFIER'],
-              app_version: "2.0.0"
+              # app_version: app_version
             )
 
             # Delete temp keychain
