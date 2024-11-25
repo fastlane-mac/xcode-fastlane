@@ -112,8 +112,8 @@ jobs:
                 key_content: "${{ secrets.FASTLANE_API_KEY_P8 }}"
             )
 
-            # version = get_app_store_version_number(bundle_id: "com.thinksys.covid")
-            # puts "Checking AppStore version number set: #{version}"
+            version = get_app_store_version_number(app_identifier: "com.thinksys.covid",platform: "ios")
+            puts "Checking AppStore version number set: #{version}"
             
 
             # Ensure a valid version number is set
@@ -128,29 +128,16 @@ jobs:
             #   )
             # end
 
-            # Increment version number based on version_type input
-            # bump_type = ENV['VERSION_TYPE'] || 'patch'
-            # increment_version_number(
-            #   bump_type: bump_type,
-            #   xcodeproj: "Xcode Demo.xcodeproj"
-            # )
-            
-            # new_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
-            # puts "New version number set: #{new_version}"
-
-
-
-            current_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
-            puts "Current version: #{current_version}"
-
-            # Bump the version number (e.g., patch version increment)
+            Increment version number based on version_type input
             bump_type = ENV['VERSION_TYPE'] || 'patch'
-            new_version = increment_version_number(
-              xcodeproj: "Xcode Demo.xcodeproj",
-              bump_type: bump_type, # Change to "minor" or "major" if needed
-              version_number: "1.0.1"
+            increment_version_number(
+              bump_type: bump_type,
+              xcodeproj: "Xcode Demo.xcodeproj"
             )
-            puts "Bumped version to: #{new_version}"
+            
+            new_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
+            puts "New version number set: #{new_version}"
+
 
 
             # Fetch the latest build number from App Store Connect
