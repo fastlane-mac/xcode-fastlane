@@ -112,8 +112,8 @@ jobs:
                 key_content: "${{ secrets.FASTLANE_API_KEY_P8 }}"
             )
 
-            version = get_app_store_version_number(app_identifier: "com.thinksys.covid",platform: "ios")
-            puts "Checking AppStore version number set: #{version}"
+            # version = get_app_store_version_number(app_identifier: "com.thinksys.covid",platform: "ios")
+            # puts "Checking AppStore version number set: #{version}"
             
 
             # Ensure a valid version number is set
@@ -128,15 +128,15 @@ jobs:
             #   )
             # end
 
-            Increment version number based on version_type input
-            bump_type = ENV['VERSION_TYPE'] || 'patch'
-            increment_version_number(
-              bump_type: bump_type,
-              xcodeproj: "Xcode Demo.xcodeproj"
-            )
+            # Increment version number based on version_type input
+            # bump_type = ENV['VERSION_TYPE'] || 'patch'
+            # increment_version_number(
+            #   bump_type: bump_type,
+            #   xcodeproj: "Xcode Demo.xcodeproj"
+            # )
             
-            new_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
-            puts "New version number set: #{new_version}"
+            # new_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
+            # puts "New version number set: #{new_version}"
 
 
 
@@ -147,7 +147,6 @@ jobs:
               api_key: api_key,
               app_identifier: ENV['APP_IDENTIFIER'],
               live: false,
-              version: version_number 
             )
              puts "Latest build number fetched from App Store: #{latest_build_number}"
            rescue => e
@@ -180,12 +179,22 @@ jobs:
               codesigning_identity: "Apple Distribution"
             )
 
-            # Upload to TestFlight
-            upload_to_testflight(
-              username: ENV['FASTLANE_APPLE_ID'],
-              skip_waiting_for_build_processing: true,
-              app_identifier: ENV['APP_IDENTIFIER'],
-              app_version: "1.0.1"
+            # # Upload to TestFlight
+            # upload_to_testflight(
+            #   username: ENV['FASTLANE_APPLE_ID'],
+            #   skip_waiting_for_build_processing: true,
+            #   app_identifier: ENV['APP_IDENTIFIER'],
+            #   app_version: "1.0.1"
+            # )
+            deliver(
+            build_number: '1',
+            submit_for_review: true,
+            automatic_release: true,
+            force: true, # Skip HTMl report verification
+            skip_metadata: true,
+            skip_screenshots: true,
+            skip_binary_upload: true,
+            app_version: 1.0.1
             )
 
             # Delete temp keychain
