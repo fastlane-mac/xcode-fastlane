@@ -114,7 +114,7 @@ jobs:
 
 
             create_app_online(
-              username: "vashistha.shaswat@thinksys.com",
+              username: ${{ secrets.FASTLANE_APPLE_ID }},
               app_identifier: "com.thinksys.covid",
               app_name: "fastlane-demo-2",
               language: "English",
