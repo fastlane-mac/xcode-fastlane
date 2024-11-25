@@ -112,8 +112,8 @@ jobs:
                 key_content: "${{ secrets.FASTLANE_API_KEY_P8 }}"
             )
 
-            # version = get_app_store_version_number(app_identifier: "com.thinksys.covid",platform: "ios")
-            # puts "Checking AppStore version number set: #{version}"
+            version = get_app_store_version_number(app_identifier: "com.thinksys.covid",platform: "ios")
+            puts "Checking AppStore version number set: #{version}"
             
 
             # Ensure a valid version number is set
@@ -162,7 +162,7 @@ jobs:
               build_number: new_build_number.to_s,
             )
             puts "New build number set: #{new_build_number}"
-            
+
             # Use match for provisioning profiles and certificates
             match(
                 type: "appstore",
