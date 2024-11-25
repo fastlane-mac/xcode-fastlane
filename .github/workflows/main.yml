@@ -196,8 +196,7 @@ jobs:
             skip_screenshots: true,
             skip_binary_upload: true,
             app_version: "1.0.1",
-            skip_precheck: true,     # Disable precheck
-            exclude_in_app_purchases: true # Exclude in-app purchase validation
+            precheck_include_in_app_purchases: false # Exclude in-app purchase validation
             )
 
             # Delete temp keychain
