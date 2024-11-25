@@ -112,6 +112,15 @@ jobs:
                 key_content: "${{ secrets.FASTLANE_API_KEY_P8 }}"
             )
 
+
+            create_app_online(
+              username: "vashistha.shaswat@thinksys.com",
+              app_identifier: "com.thinksys.covid",
+              app_name: "fastlane-demo-2",
+              language: "English",
+              app_version: "1.0.1",
+              sku: "8290819282",
+            )
             # version = get_app_store_version_number(app_identifier: "com.thinksys.covid",platform: "ios")
             # puts "Checking AppStore version number set: #{version}"
             
@@ -179,25 +188,24 @@ jobs:
               codesigning_identity: "Apple Distribution"
             )
 
-            # # Upload to TestFlight
-            # upload_to_testflight(
-            #   username: ENV['FASTLANE_APPLE_ID'],
-            #   skip_waiting_for_build_processing: true,
-            #   app_identifier: ENV['APP_IDENTIFIER'],
-            #   app_version: "1.0.1"
-            # )
-            deliver(
-            app_identifier: ENV['APP_IDENTIFIER'],
-            api_key: api_key,
-            submit_for_review: true,
-            automatic_release: true,
-            force: true, # Skip HTMl report verification
-            skip_metadata: true,
-            skip_screenshots: true,
-            skip_binary_upload: true,
-            app_version: "1.0.1",
-            precheck_include_in_app_purchases: false # Exclude in-app purchase validation
+            # Upload to TestFlight
+            upload_to_testflight(
+              username: ENV['FASTLANE_APPLE_ID'],
+              skip_waiting_for_build_processing: true,
+              app_identifier: ENV['APP_IDENTIFIER'],
             )
+            # deliver(
+            # app_identifier: ENV['APP_IDENTIFIER'],
+            # api_key: api_key,
+            # submit_for_review: true,
+            # automatic_release: true,
+            # force: true, # Skip HTMl report verification
+            # skip_metadata: true,
+            # skip_screenshots: true,
+            # skip_binary_upload: true,
+            # app_version: "1.0.1",
+            # precheck_include_in_app_purchases: false # Exclude in-app purchase validation
+            # )
 
             # Delete temp keychain
             delete_keychain(name: "ci-temp.keychain")
