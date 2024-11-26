@@ -128,15 +128,15 @@ jobs:
             #   )
             # end
 
-            # Increment version number based on version_type input
-            # bump_type = ENV['VERSION_TYPE'] || 'patch'
-            # increment_version_number(
-            #   bump_type: bump_type,
-            #   xcodeproj: "Xcode Demo.xcodeproj"
-            # )
+            Increment version number based on version_type input
+            bump_type = ENV['VERSION_TYPE'] || 'patch'
+            increment_version_number(
+              bump_type: bump_type,
+              xcodeproj: "Xcode Demo.xcodeproj"
+            )
             
-            # new_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
-            # puts "New version number set: #{new_version}"
+            new_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
+            puts "New version number set: #{new_version}"
 
 
 
