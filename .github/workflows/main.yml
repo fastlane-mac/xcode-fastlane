@@ -112,7 +112,7 @@ jobs:
                 key_content: "${{ secrets.FASTLANE_API_KEY_P8 }}"
             )
 
-            version = get_app_store_version_number(app_identifier: "com.thinksys.covid",platform: "ios")
+            version = get_app_store_version_number(app_identifier: "com.thinksys.thinksysPortal",platform: "ios")
             puts "Checking AppStore version number set: #{version}"
             
 
