@@ -22,7 +22,7 @@ jobs:
       cancel-in-progress: true
 
     env:
-      APP_IDENTIFIER: com.thinksys.covid
+      APP_IDENTIFIER: com.thinksys.habitTracker #com.thinksys.covid
       APPLE_DEVELOPER_ACCOUNT: ${{ secrets.APPLE_DEVELOPER_ACCOUNT }}
       FASTLANE_APPLE_ID: ${{ secrets.FASTLANE_APPLE_ID }}
       TEAM_ID: ${{ secrets.TEAM_ID }}
