@@ -128,7 +128,7 @@ jobs:
             #   )
             # end
 
-            Increment version number based on version_type input
+            #Increment version number based on version_type input
             bump_type = ENV['VERSION_TYPE'] || 'patch'
             increment_version_number(
               bump_type: bump_type,
