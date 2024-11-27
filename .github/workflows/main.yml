@@ -217,7 +217,7 @@ jobs:
                   "com.thinksys.habitTracker" => "match AppStore com.thinksys.habitTracker"
                 },
                 marketingVersion: new_version
-              }
+              },
               xcargs: "MARKETING_VERSION=#{new_version}"
             )
 
