@@ -114,7 +114,20 @@ jobs:
 
             version = get_app_store_version_number(bundle_id: "com.thinksys.habitTracker")
             puts "Checking AppStore version number set: #{version}"
-            
+
+            # If no version is returned, handle it
+            if version.nil? || version.empty?
+              UI.user_error!("Failed to fetch the latest version number from the App Store.")
+            end
+
+            # Increment the version (for demonstration, we'll add a patch increment here)
+            major, minor, patch = version.split('.').map(&:to_i)
+
+            patch += 1 # Increment the patch version for example purposes
+            new_version = "#{major}.#{minor}.#{patch}"
+
+            puts "New version after increment: #{new_version}"
+            sh("agvtool new-marketing-version #{new_version}")
 
             # Ensure a valid version number is set
             # current_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
@@ -129,15 +142,15 @@ jobs:
             # end
 
             #Increment version number based on version_type input
-            bump_type = ENV['VERSION_TYPE'] || 'patch'
-            increment_version_number(
-              # version_number: "1.0.2",
-              bump_type: bump_type,
-              xcodeproj: "Xcode Demo.xcodeproj"
-            )
+            # bump_type = ENV['VERSION_TYPE'] || 'patch'
+            # increment_version_number(
+            #   # version_number: "1.0.2",
+            #   bump_type: bump_type,
+            #   xcodeproj: "Xcode Demo.xcodeproj"
+            # )
             
-            new_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
-            puts "New version number set: #{new_version}"
+            # new_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
+            # puts "New version number set: #{new_version}"
 
 
 
@@ -177,7 +190,13 @@ jobs:
             # Build the app
             build_app(
               scheme: "Xcode Demo",
-              codesigning_identity: "Apple Distribution"
+              codesigning_identity: "Apple Distribution",
+              export_options: {
+                provisioningProfiles: {
+                  "com.thinksys.habitTracker" => "match AppStore com.thinksys.habitTracker"
+                },
+                marketingVersion: "1.0.3"
+              }
             )
 
             # Upload to TestFlight

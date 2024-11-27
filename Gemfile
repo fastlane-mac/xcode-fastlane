@@ -1,3 +1,3 @@
 source "https://rubygems.org"
 gem "fastlane"
-gem 'fastlane-plugin-versioning'
+gem "fastlane-plugin-versioning"
