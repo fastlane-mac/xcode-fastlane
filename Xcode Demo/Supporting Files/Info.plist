@@ -15,7 +15,7 @@
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.0.2</string> <!-- This is the version number (e.g., 1.0, 1.0.1) -->
+    <string>1.1.0</string> <!-- This is the version number (e.g., 1.0, 1.0.1) -->
     <key>CFBundleVersion</key>
     <string>1</string> <!-- This is the build number (increment for each build) -->
     <key>UILaunchStoryboardName</key>
