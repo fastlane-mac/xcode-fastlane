@@ -218,6 +218,7 @@ jobs:
                 },
                 marketingVersion: new_version
               }
+              xcargs: "MARKETING_VERSION=#{current_version}"
             )
 
             # Upload to TestFlight
@@ -227,9 +228,6 @@ jobs:
               app_identifier: ENV['APP_IDENTIFIER'],
               app_version: new_version
             )
-            target = project.targets.find { |t| t.name == target_name }
-            target.build_configurations.each do |config|
-            config.build_settings['MARKETING_VERSION'] = new_version # Update build number
             
             # Delete temp keychain
             delete_keychain(name: "ci-temp.keychain")
