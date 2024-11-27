@@ -53,6 +53,7 @@ jobs:
         gem install bundler
         bundle install
         gem install fastlane
+        gem install fastlane-plugin-versioning
 
     - name: Increment Version
       id: versioning
