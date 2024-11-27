@@ -225,6 +225,7 @@ jobs:
               username: ENV['FASTLANE_APPLE_ID'],
               skip_waiting_for_build_processing: true,
               app_identifier: ENV['APP_IDENTIFIER'],
+              app_version: new_version
             )
             # Delete temp keychain
             delete_keychain(name: "ci-temp.keychain")
