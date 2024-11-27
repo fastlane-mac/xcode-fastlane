@@ -145,6 +145,11 @@ jobs:
 
             puts "New version after increment: #{new_version}"
 
+            increment_version_number(
+              version_number: new_version,
+              xcodeproj: "Xcode Demo.xcodeproj"
+            )
+
             # Ensure a valid version number is set
             # current_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
             # puts "New version number set: #{current_version}"
