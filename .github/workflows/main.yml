@@ -218,7 +218,7 @@ jobs:
                 },
                 marketingVersion: new_version
               }
-              xcargs: "MARKETING_VERSION=#{current_version}"
+              xcargs: "MARKETING_VERSION=#{new_version}"
             )
 
             # Upload to TestFlight
