@@ -195,8 +195,11 @@ jobs:
                   "com.thinksys.habitTracker" => "match AppStore com.thinksys.habitTracker"
                 },
                 marketingVersion: new_version,
-                productbundleidentifier: com.thinksys.habitTracker,
-                developmentteam: 3TCD6ERDJF
+                buildSettings: {
+                  "DEVELOPMENT_TEAM[sdk=iphoneos*]" => "3TCD6ERDJF",  # Set DEVELOPMENT_TEAM for iPhoneOS SDK
+                  "PRODUCT_BUNDLE_IDENTIFIER" => "com.thinksys.habitTracker", # Set the Product Bundle Identifier
+                  "MARKETING_VERSION" => new_version  # Set the marketing version number
+                }
               }
             )
 
