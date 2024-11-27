@@ -194,8 +194,7 @@ jobs:
                 provisioningProfiles: {
                   "com.thinksys.habitTracker" => "match AppStore com.thinksys.habitTracker"
                 },
-                marketingVersion: new_version,
-                teamID: "3TCD6ERDJF"
+                marketingVersion: new_version
               }
             )
 
