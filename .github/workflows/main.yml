@@ -111,7 +111,6 @@ jobs:
                 issuer_id: "${{ secrets.FASTLANE_API_KEY_ISSUER_ID }}",
                 key_content: "${{ secrets.FASTLANE_API_KEY_P8 }}"
             )
-
             version = get_app_store_version_number(bundle_id: "com.thinksys.habitTracker")
             puts "Checking AppStore version number set: #{version}"
 
@@ -120,10 +119,28 @@ jobs:
               UI.user_error!("Failed to fetch the latest version number from the App Store.")
             end
 
-            # Increment the version (for demonstration, we'll add a patch increment here)
+            # Get the version type from GitHub Actions input (patch, minor, or major)
+            version_type = ENV["VERSION_TYPE"] || "patch"  # Default to patch if not provided
+
+            # Split the version into major, minor, patch components
             major, minor, patch = version.split('.').map(&:to_i)
 
-            patch += 1 # Increment the patch version for example purposes
+            # Increment the version based on the specified version type
+            case version_type
+            when "major"
+              major += 1
+              minor = 0  # Reset minor and patch for major increment
+              patch = 0
+            when "minor"
+              minor += 1
+              patch = 0  # Reset patch for minor increment
+            when "patch"
+              patch += 1
+            else
+              UI.user_error!("Invalid version type provided.")
+            end
+
+            # Build the new version string
             new_version = "#{major}.#{minor}.#{patch}"
 
             puts "New version after increment: #{new_version}"
