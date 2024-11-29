@@ -1,17 +1,9 @@
 name: iOS CI/CD Pipeline
 
 on:
-  workflow_dispatch:
-    inputs:
-      version_type:
-        description: 'Specify version type (major, minor, patch)'
-        required: true
-        default: 'patch'
-        type: choice
-        options:
-          - major
-          - minor
-          - patch
+  push:
+    branches:
+      - github-xcode-demo-2
 
 jobs:
   build-and-deploy:
@@ -54,6 +46,36 @@ jobs:
         bundle install
         gem install fastlane
         gem install fastlane-plugin-versioning
+
+    - name: Get Commit Message
+      id: get_commit_message
+      run: |
+        COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+        echo "Commit message: $COMMIT_MESSAGE"
+        echo "::set-output name=message::$COMMIT_MESSAGE"
+
+    - name: Determine Version Type
+      id: determine_version_type
+      run: |
+        COMMIT_MESSAGE="${{ steps.get_commit_message.outputs.message }}"
+        if echo "$COMMIT_MESSAGE" | grep -qi "major"; then
+          VERSION_TYPE="major"
+        elif echo "$COMMIT_MESSAGE" | grep -qi "minor"; then
+          VERSION_TYPE="minor"
+        elif echo "$COMMIT_MESSAGE" | grep -qi "patch"; then
+          VERSION_TYPE="patch"
+        else
+          echo "No version type found in the commit message."
+          exit 1
+        fi
+        echo "Determined version type: $VERSION_TYPE"
+        echo "::set-output name=version_type::$VERSION_TYPE"
+
+    - name: Use Version Type
+      run: |
+        VERSION_TYPE="${{ steps.determine_version_type.outputs.version_type }}"
+        echo "Proceeding with version type: $VERSION_TYPE"
+        # Add subsequent steps for your CI/CD pipeline here
 
     - name: Set up Apple Developer API Key
       run: |
@@ -129,11 +151,8 @@ jobs:
             case version_type
             when "major"
               major += 1
-              minor = 0  # Reset minor and patch for major increment
-              patch = 0
             when "minor"
               minor += 1
-              patch = 0  # Reset patch for minor increment
             when "patch"
               patch += 1
             else
