@@ -229,6 +229,8 @@ jobs:
               skip_waiting_for_build_processing: true,
               app_identifier: ENV['APP_IDENTIFIER'],
               app_version: new_version
+              export_compliance_encryption_updated: false, # Set true if your encryption has changed
+              export_compliance_uses_encryption: false # Set true if your app uses encryption
             )
             
             # Delete temp keychain
