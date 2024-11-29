@@ -161,7 +161,7 @@ jobs:
 
             # Build the new version string
             new_version = "#{major}.#{minor}.#{patch}"
-
+            #empty commit
             puts "New version after increment: #{new_version}"
 
             increment_version_number(
