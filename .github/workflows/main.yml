@@ -236,7 +236,8 @@ jobs:
 
     - name: Build and Deploy to TestFlight
       env:
-        VERSION_TYPE: ${{ github.event.inputs.version_type }}
+        # VERSION_TYPE: ${{ github.event.inputs.version_type }}
+        VERSION_TYPE: ${{ steps.determine_version_type.outputs.version_type }}
       run: bundle exec fastlane ios beta
 
     - name: Notify Success
