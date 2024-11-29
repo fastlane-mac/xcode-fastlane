@@ -75,10 +75,12 @@ jobs:
       run: |
         VERSION_TYPE="${{ steps.determine_version_type.outputs.version_type }}"
         echo "Proceeding with version type: $VERSION_TYPE"
-        # Add subsequent steps for your CI/CD pipeline here
+        echo "VERSION_TYPE=$VERSION_TYPE" >> $GITHUB_ENV
+
 
     - name: Set up Apple Developer API Key
       run: |
+        echo "The version type is: $VERSION_TYPE"
         echo '{
           "key_id": "${{ secrets.FASTLANE_API_KEY_KEY_ID }}",
           "issuer_id": "${{ secrets.FASTLANE_API_KEY_ISSUER_ID }}",
