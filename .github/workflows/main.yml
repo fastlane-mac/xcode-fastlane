@@ -129,11 +129,8 @@ jobs:
             case version_type
             when "major"
               major += 1
-              minor = 0  # Reset minor and patch for major increment
-              patch = 0
             when "minor"
               minor += 1
-              patch = 0  # Reset patch for minor increment
             when "patch"
               patch += 1
             else
