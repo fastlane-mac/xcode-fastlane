@@ -73,10 +73,13 @@ jobs:
 
     - name: Use Version Type
       run: |
-        VERSION_TYPE="${{ steps.determine_version_type.outputs.version_type }}"
-        echo "Proceeding with version type: $VERSION_TYPE"
-        echo "VERSION_TYPE=$VERSION_TYPE" >> $GITHUB_ENV
+        # VERSION_TYPE="${{ steps.determine_version_type.outputs.version_type }}"
+        echo "VERSION_TYPE=${{ steps.determine_version_type.outputs.version_type }}" >> $GITHUB_ENV
+        # echo "Proceeding with version type: $VERSION_TYPE"
+        # echo "VERSION_TYPE=$VERSION_TYPE" >> $GITHUB_ENV
 
+    - name: Debug Environment Variables
+      run: env
 
     - name: Set up Apple Developer API Key
       run: |
