@@ -133,7 +133,7 @@ jobs:
                 issuer_id: "${{ secrets.FASTLANE_API_KEY_ISSUER_ID }}",
                 key_content: "${{ secrets.FASTLANE_API_KEY_P8 }}"
             )
-            version = get_app_store_version_number(bundle_id: "com.thinksys.habitTracker")
+            version = get_app_store_version_number(bundle_id: "${{ env.APP_IDENTIFIER }}")
             puts "Checking AppStore version number set: #{version}"
 
             # If no version is returned, handle it
@@ -168,31 +168,6 @@ jobs:
               version_number: new_version,
               xcodeproj: "Xcode Demo.xcodeproj"
             )
-
-            # Ensure a valid version number is set
-            # current_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
-            # puts "New version number set: #{current_version}"
-            
-            # if current_version.empty? || !current_version.match?(/^\d+(\.\d+)*$/)
-            #   puts "Current version is invalid or empty. Setting default version to 1.0.0"
-            #   increment_version_number(
-            #     version_number: "1.0.0",
-            #     xcodeproj: "Xcode Demo.xcodeproj"
-            #   )
-            # end
-
-            #Increment version number based on version_type input
-            # bump_type = ENV['VERSION_TYPE'] || 'patch'
-            # increment_version_number(
-            #   # version_number: "1.0.2",
-            #   bump_type: bump_type,
-            #   xcodeproj: "Xcode Demo.xcodeproj"
-            # )
-            
-            # new_version = get_version_number(xcodeproj: "Xcode Demo.xcodeproj")
-            # puts "New version number set: #{new_version}"
-
-
 
             # Fetch the latest build number from App Store Connect
             latest_build_number = nil
@@ -233,7 +208,7 @@ jobs:
               codesigning_identity: "Apple Distribution",
               export_options: {
                 provisioningProfiles: {
-                  "com.thinksys.habitTracker" => "match AppStore com.thinksys.habitTracker"
+                  "${{ env.APP_IDENTIFIER }}" => "match AppStore ${{ env.APP_IDENTIFIER }}"
                 },
                 marketingVersion: new_version
               },
