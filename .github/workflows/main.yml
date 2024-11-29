@@ -52,7 +52,8 @@ jobs:
       run: |
         COMMIT_MESSAGE=$(git log -1 --pretty=%B)
         echo "Commit message: $COMMIT_MESSAGE"
-        echo "::set-output name=message::$COMMIT_MESSAGE"
+        echo "message=$COMMIT_MESSAGE" >> $GITHUB_OUTPUT
+        # echo "::set-output name=message::$COMMIT_MESSAGE"
 
     - name: Determine Version Type
       id: determine_version_type
@@ -69,7 +70,9 @@ jobs:
           exit 1
         fi
         echo "Determined version type: $VERSION_TYPE"
-        echo "::set-output name=version_type::$VERSION_TYPE"
+        # echo "::set-output name=version_type::$VERSION_TYPE"
+        echo "version_type=$VERSION_TYPE" >> $GITHUB_OUTPUT
+        
 
     - name: Use Version Type
       run: |
