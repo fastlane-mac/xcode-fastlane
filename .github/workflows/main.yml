@@ -164,7 +164,8 @@ jobs:
             when "patch"
               patch += 1
             else
-              UI.user_error!("Invalid version type provided.")
+              puts "invalid version type provided.defaulting to minor"
+              minor +=1
             end
 
             # Build the new version string
