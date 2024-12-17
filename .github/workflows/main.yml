@@ -96,6 +96,8 @@ jobs:
         
     - name: Create Dynamic Fastlane Configuration
       run: |
+        echo "check the path"
+        echo $CUSTOM_FASTLANE_DIR
         mkdir -p $CUSTOM_FASTLANE_DIR
         mkdir -p ./fastlane
         cat <<EOF > $CUSTOM_FASTLANE_DIR/Appfile
