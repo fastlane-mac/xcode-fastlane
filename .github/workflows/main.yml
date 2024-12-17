@@ -97,7 +97,7 @@ jobs:
     - name: Create Dynamic Fastlane Configuration
       run: |
         mkdir -p ./fastlane
-        cat <<EOF > $CUSTOM_FASTLANE_DIR/Appfile
+        cat <<EOF >  ./fastlane/Appfile
         apple_id("${{ secrets.FASTLANE_APPLE_ID }}")
         team_id("${{ secrets.TEAM_ID }}")
         itc_team_id("${{ secrets.ITC_TEAM_ID }}")
@@ -105,7 +105,7 @@ jobs:
         EOF
 
         # Create the Matchfile
-        cat <<EOF > $CUSTOM_FASTLANE_DIR/Matchfile
+        cat <<EOF > ./fastlane/Matchfile
         s3_bucket("${{secrets.S3_BUCKET_NAME}}")
         storage_mode("s3")
         type("appstore")
