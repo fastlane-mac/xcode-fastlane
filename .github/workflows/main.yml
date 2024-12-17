@@ -96,9 +96,6 @@ jobs:
         
     - name: Create Dynamic Fastlane Configuration
       run: |
-        echo "check the path"
-        echo $CUSTOM_FASTLANE_DIR
-        mkdir -p $CUSTOM_FASTLANE_DIR
         mkdir -p ./fastlane
         cat <<EOF > $CUSTOM_FASTLANE_DIR/Appfile
         apple_id("${{ secrets.FASTLANE_APPLE_ID }}")
@@ -156,7 +153,7 @@ jobs:
                 type: "appstore",
                 readonly: false,
                 api_key: api_key,
-                team_id:"${{secrets.TEAM_ID}}",
+                team_id: "${{secrets.TEAM_ID}}",
                 keychain_name: "ci-temp.keychain-db",
                 keychain_password: "${{secrets.KEYCHAIN_PASSWORD}}"
             )
@@ -170,7 +167,7 @@ jobs:
               scheme: "Xcode Demo",
               destination: "platform=iOS Simulator,name=iPhone 14,OS=18.0",
               archive_path: "/Users/runner/custom_workspace/Archives/#{Time.now.strftime('%Y-%m-%d')}/Xcode Demo #{Time.now.strftime('%Y-%m-%d %H.%M.%S')}.xcarchive",
-              derived_data_path: "/Users/runner/custom_workspace//DerivedData"
+              derived_data_path: "/Users/runner/custom_workspace/DerivedData"
              )
 
             #Upload to TestFlight
