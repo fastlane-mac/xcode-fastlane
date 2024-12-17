@@ -147,7 +147,7 @@ jobs:
                 keychain_password: "${{secrets.KEYCHAIN_PASSWORD}}"
             )
 
-            user_name = `whoami`.strip
+            user_name = `whoami`
 
             # Create the necessary directories for archive
             base_directory = "/Users/#{user_name}/Library/Developer/Xcode"
