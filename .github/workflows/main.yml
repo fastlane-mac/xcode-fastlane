@@ -75,11 +75,11 @@ jobs:
 
     - name: Create and unlock keychain
       run: |
-        security create-keychain -p ${{ secrets.KEYCHAIN_PASSWORD }} /Users/runner/Library/Keychains/ci-temp.keychain-db
-        security unlock-keychain -p ${{ secrets.KEYCHAIN_PASSWORD }} /Users/runner/Library/Keychains/ci-temp.keychain-db
-        security list-keychains -s /Users/runner/Library/Keychains/ci-temp.keychain-db
-        security default-keychain -s /Users/runner/Library/Keychains/ci-temp.keychain-db
-        security set-keychain-settings -t 3600 -l /Users/runner/Library/Keychains/ci-temp.keychain-db
+        security create-keychain -p ${{ secrets.KEYCHAIN_PASSWORD }} /Users/macmini4/Library/Keychains/ci-temp.keychain-db
+        security unlock-keychain -p ${{ secrets.KEYCHAIN_PASSWORD }} /Users/macmini4/Library/Keychains/ci-temp.keychain-db
+        security list-keychains -s /Users/macmini4/Library/Keychains/ci-temp.keychain-db
+        security default-keychain -s /Users/macmini4/Library/Keychains/ci-temp.keychain-db
+        security set-keychain-settings -t 3600 -l /Users/macmini4/Library/Keychains/ci-temp.keychain-db
 
     - name: Create Dynamic Fastlane Configuration
       run: |
