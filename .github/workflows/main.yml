@@ -15,8 +15,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: macos-latest
-
+    runs-on: self-hosted
     concurrency:
       group: ${{ github.ref }}
       cancel-in-progress: true
