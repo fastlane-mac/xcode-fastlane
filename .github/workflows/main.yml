@@ -184,7 +184,7 @@ jobs:
         EOF
     
     - name: Checking Fastfile Configuration
-      run: cat $CUSTOM_FASTLANE_DIR/Fastfile
+      run: cat ./fastlane/Fastfile
 
     - name: Build and Deploy to TestFlight
       run: bundle exec fastlane ios beta
