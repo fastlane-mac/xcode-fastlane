@@ -150,7 +150,8 @@ jobs:
             # Build the app
             build_app(
               scheme: "Xcode Demo",
-              destination: "platform=iOS Simulator,name=iPhone 14,OS=18.0"
+              destination: "platform=iOS Simulator,name=iPhone 14,OS=18.0",
+              archive_path: "/Users/macmini4/Library/Developer/Xcode/Archives/#{Time.now.strftime('%Y-%m-%d')}/Xcode Demo #{Time.now.strftime('%Y-%m-%d %H.%M.%S')}.xcarchive"
             )
 
             #Upload to TestFlight
