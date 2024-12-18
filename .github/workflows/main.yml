@@ -216,7 +216,7 @@ jobs:
             build_app(
               scheme: "Xcode Demo",
               archive_path: "/Users/runner/custom_workspace/Archives/#{Time.now.strftime('%Y-%m-%d')}/Xcode Demo #{Time.now.strftime('%Y-%m-%d %H.%M.%S')}.xcarchive",
-              derived_data_path: "/Users/runner/custom_workspace/DerivedData"
+              derived_data_path: "/Users/runner/custom_workspace/DerivedData",
               codesigning_identity: "Apple Distribution",
               export_options: {
                 provisioningProfiles: {
