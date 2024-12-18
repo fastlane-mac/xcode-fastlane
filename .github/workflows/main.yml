@@ -1,21 +1,16 @@
 name: iOS CI/CD Pipeline
-
 on:
-  # push:
-  #   branches:
-  #     - '**'  # This matches all branches
-  # pull_request:
-  #   branches:
-  #     - '**'  # This matches all branches
   workflow_dispatch:
-
-jobs:
-  build-and-deploy:
-    runs-on: macos-latest
-
-    concurrency:
-      group: ${{ github.ref }}  # Group jobs by branch
-      cancel-in-progress: true  # Cancel any in-progress job for the same branch if a new push is triggered
+    inputs:
+      version_type:
+        description: "Select the version type"
+        required: true
+        default: "patch"
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
 
     env:
       APP_IDENTIFIER: com.thinksys.habitTracker
@@ -31,6 +26,7 @@ jobs:
       FASTLANE_API_KEY_KEY_ID: ${{ secrets.FASTLANE_API_KEY_KEY_ID }},
       FASTLANE_API_KEY_ISSUER_ID: ${{ secrets.FASTLANE_API_KEY_ISSUER_ID }},
       FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }},
+      VERSION_TYPE: ${{ github.event.inputs.version_type }}
 
     steps:
     - name: Checkout code
@@ -75,21 +71,6 @@ jobs:
           }' > api_key.json
           echo "${{ secrets.FASTLANE_API_KEY_P8 }}" > api_key.p8
 
-
-    - name: Get Commit Message
-      id: get_commit_message
-      run: |
-        COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-        echo "Commit message: $COMMIT_MESSAGE"
-        echo "message=$COMMIT_MESSAGE" >> $GITHUB_OUTPUT
-        # echo "::set-output name=message::$COMMIT_MESSAGE"
-
-    - name: Use Version Type
-      run: |
-        # VERSION_TYPE="${{ steps.determine_version_type.outputs.version_type }}"
-        echo "VERSION_TYPE=${{ steps.determine_version_type.outputs.version_type }}" >> $GITHUB_ENV
-        # echo "Proceeding with version type: $VERSION_TYPE"
-        # echo "VERSION_TYPE=$VERSION_TYPE" >> $GITHUB_ENV
 
 
     # Configure AWS CLI
