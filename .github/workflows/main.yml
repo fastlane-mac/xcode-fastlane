@@ -49,11 +49,11 @@ jobs:
       with:
         fetch-depth: 0
         
-    # - name: Set custom workspace
-    #   run: |
-    #     mkdir -p /Users/runner/custom_workspace/fastlane
-    #     export CUSTOM_FASTLANE_DIR="/Users/runner/custom_workspace/fastlane"
-    #     echo "Workspace set to $CUSTOM_FASTLANE_DIR"
+    - name: Set custom workspace
+      run: |
+        mkdir -p /Users/runner/custom_workspace/fastlane
+        export CUSTOM_FASTLANE_DIR="/Users/runner/custom_workspace/fastlane"
+        echo "Workspace set to $CUSTOM_FASTLANE_DIR"
 
     - name: Identify user running the job
       run: whoami
