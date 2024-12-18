@@ -21,7 +21,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: new-mac-mini
+    runs-on: new-macbook
 
     concurrency:
       group: ${{ github.ref }}  # Group jobs by branch
