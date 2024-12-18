@@ -71,10 +71,9 @@ jobs:
     # 3. Install dependencies (if you have a Gemfile and CocoaPods)
     - name: Install dependencies
       run: |
-        export PATH="/Library/Ruby/Gems/2.6.0/bin:$PATH"
-        sudo gem install bundler
-        sudo bundle install
-        sudo gem install fastlane
+        gem install bundler
+        bundle install
+        gem install fastlane
         
    # Set up Apple Developer API Key (combine secrets to create the api_key.json file)
     - name: Set up Apple Developer API Key
