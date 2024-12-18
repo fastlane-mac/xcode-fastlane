@@ -43,10 +43,7 @@ jobs:
         mkdir -p /Users/runner/custom_workspace/fastlane
         export CUSTOM_FASTLANE_DIR="/Users/runner/custom_workspace/fastlane"
         echo "Workspace set to $CUSTOM_FASTLANE_DIR"
-    
-        
-    - name: Identify user running the job
-      run: whoami
+  
       
     - name: Build Step
       run: echo "Building for branch ${{ github.ref_name }}"
