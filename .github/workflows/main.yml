@@ -1,5 +1,12 @@
 name: iOS CI/CD Pipeline
+
 on:
+  # push:
+  #   branches:
+  #     - '**'  # This matches all branches
+  # pull_request:
+  #   branches:
+  #     - '**'  # This matches all branches
   workflow_dispatch:
     inputs:
       version_type:
@@ -11,6 +18,14 @@ on:
           - patch
           - minor
           - major
+
+jobs:
+  build-and-deploy:
+    runs-on: macos-latest
+
+    concurrency:
+      group: ${{ github.ref }}  # Group jobs by branch
+      cancel-in-progress: true  # Cancel any in-progress job for the same branch if a new push is triggered
 
     env:
       APP_IDENTIFIER: com.thinksys.habitTracker
@@ -39,7 +54,9 @@ on:
         mkdir -p /Users/runner/custom_workspace/fastlane
         export CUSTOM_FASTLANE_DIR="/Users/runner/custom_workspace/fastlane"
         echo "Workspace set to $CUSTOM_FASTLANE_DIR"
-  
+
+    - name: Identify user running the job
+      run: whoami
       
     - name: Build Step
       run: echo "Building for branch ${{ github.ref_name }}"
@@ -67,7 +84,6 @@ on:
             "key_content": "${{secrets.FASTLANE_API_KEY_P8}}"
           }' > api_key.json
           echo "${{ secrets.FASTLANE_API_KEY_P8 }}" > api_key.p8
-
 
 
     # Configure AWS CLI
@@ -194,7 +210,7 @@ on:
             build_app(
               scheme: "Xcode Demo",
               archive_path: "/Users/runner/custom_workspace/Archives/#{Time.now.strftime('%Y-%m-%d')}/Xcode Demo #{Time.now.strftime('%Y-%m-%d %H.%M.%S')}.xcarchive",
-              derived_data_path: "/Users/runner/custom_workspace/DerivedData",
+              derived_data_path: "/Users/runner/custom_workspace/DerivedData"
               codesigning_identity: "Apple Distribution",
               export_options: {
                 provisioningProfiles: {
