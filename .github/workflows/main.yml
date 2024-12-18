@@ -75,6 +75,23 @@ jobs:
           }' > api_key.json
           echo "${{ secrets.FASTLANE_API_KEY_P8 }}" > api_key.p8
 
+
+    - name: Get Commit Message
+      id: get_commit_message
+      run: |
+        COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+        echo "Commit message: $COMMIT_MESSAGE"
+        echo "message=$COMMIT_MESSAGE" >> $GITHUB_OUTPUT
+        # echo "::set-output name=message::$COMMIT_MESSAGE"
+
+    - name: Use Version Type
+      run: |
+        # VERSION_TYPE="${{ steps.determine_version_type.outputs.version_type }}"
+        echo "VERSION_TYPE=${{ steps.determine_version_type.outputs.version_type }}" >> $GITHUB_ENV
+        # echo "Proceeding with version type: $VERSION_TYPE"
+        # echo "VERSION_TYPE=$VERSION_TYPE" >> $GITHUB_ENV
+
+
     # Configure AWS CLI
     - name: Configure AWS CLI
       env:
@@ -126,6 +143,42 @@ jobs:
                 key_content: "${{secrets.FASTLANE_API_KEY_P8}}"
             )
 
+            version = get_app_store_version_number(bundle_id: "${{ env.APP_IDENTIFIER }}")
+            puts "Checking AppStore version number set: #{version}"
+
+            # If no version is returned, handle it
+            if version.nil? || version.empty?
+              UI.user_error!("Failed to fetch the latest version number from the App Store.")
+            end
+
+            # Get the version type from GitHub Actions input (patch, minor, or major)
+            version_type = ENV["VERSION_TYPE"] || "patch"  # Default to patch if not provided
+
+            # Split the version into major, minor, patch components
+            major, minor, patch = version.split('.').map(&:to_i)
+
+            # Increment the version based on the specified version type
+            case version_type
+            when "major"
+              major += 1
+            when "minor"
+              minor += 1
+            when "patch"
+              patch += 1
+            else
+              puts "invalid version type provided.defaulting to minor"
+              minor +=1
+            end
+
+            # Build the new version string
+            new_version = "#{major}.#{minor}.#{patch}"
+            #empty commit
+            puts "New version after increment: #{new_version}"
+
+            increment_version_number(
+              version_number: new_version,
+              xcodeproj: "Xcode Demo.xcodeproj"
+            )
     
             # puts "Fetched app version from App Store Connect: #{app_version}"  # Optional: print the app version for debugging
             # Fetch the latest build number from the App Store
@@ -158,23 +211,29 @@ jobs:
                 keychain_password: "${{secrets.KEYCHAIN_PASSWORD}}"
             )
 
-          
-
-      
-        
+            
             # Build the app
             build_app(
               scheme: "Xcode Demo",
-             # destination: "platform=iOS Simulator,name=iPhone 14,OS=18.0",
               archive_path: "/Users/runner/custom_workspace/Archives/#{Time.now.strftime('%Y-%m-%d')}/Xcode Demo #{Time.now.strftime('%Y-%m-%d %H.%M.%S')}.xcarchive",
               derived_data_path: "/Users/runner/custom_workspace/DerivedData"
-             )
+              codesigning_identity: "Apple Distribution",
+              export_options: {
+                provisioningProfiles: {
+                  "${{ env.APP_IDENTIFIER }}" => "match AppStore ${{ env.APP_IDENTIFIER }}"
+                },
+                marketingVersion: new_version
+              },
+              xcargs: "MARKETING_VERSION=#{new_version}"
+            )
 
             #Upload to TestFlight
             upload_to_testflight(
               username: ENV['FASTLANE_APPLE_ID'],
               skip_waiting_for_build_processing: true,
-              app_identifier: ENV['APP_IDENTIFIER']
+              app_identifier: ENV['APP_IDENTIFIER'],
+              app_version: new_version,
+              uses_non_exempt_encryption: false
             )
 
             #Delete temp keychain
