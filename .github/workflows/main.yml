@@ -165,7 +165,6 @@ jobs:
             # Build the app
             build_app(
               scheme: "Xcode Demo",
-             # destination: "platform=iOS Simulator,name=iPhone 14,OS=18.0",
               archive_path: "/Users/runner/custom_workspace/Archives/#{Time.now.strftime('%Y-%m-%d')}/Xcode Demo #{Time.now.strftime('%Y-%m-%d %H.%M.%S')}.xcarchive",
               derived_data_path: "/Users/runner/custom_workspace/DerivedData"
              )
