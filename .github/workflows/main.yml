@@ -21,7 +21,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: new-macbook
+    runs-on: new-mac-mini
 
     concurrency:
       group: ${{ github.ref }}  # Group jobs by branch
@@ -61,12 +61,12 @@ jobs:
     - name: Build Step
       run: echo "Building for branch ${{ github.ref_name }}"
       
-   # # 2. Set up Ruby (for Fastlane)
-   #  - name: Set up Ruby
-   #    uses: ruby/setup-ruby@v1
-   #    with:
-   #      ruby-version: '3.0' # Specify your Ruby version here
-   #      bundler-cache: true  # Caches installed gems for future runs
+   # 2. Set up Ruby (for Fastlane)
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.0' # Specify your Ruby version here
+        bundler-cache: true  # Caches installed gems for future runs
 
     # 3. Install dependencies (if you have a Gemfile and CocoaPods)
     - name: Install dependencies
