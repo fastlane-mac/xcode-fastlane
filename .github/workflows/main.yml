@@ -51,7 +51,8 @@ jobs:
         
     - name: Set custom workspace
       run: |
-        sudo su - runner -c 'echo "Running as runner" && whoami && pwd'
+        sudo -u runner echo "Running as runner: $(whoami)"
+        sudo -u runner echo "Current directory: $(pwd)"
         mkdir -p /Users/runner/custom_workspace/fastlane
         export CUSTOM_FASTLANE_DIR="/Users/runner/custom_workspace/fastlane"
         echo "Workspace set to $CUSTOM_FASTLANE_DIR"
