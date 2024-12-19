@@ -51,8 +51,6 @@ jobs:
         
     - name: Set custom workspace
       run: |
-        sudo -u runner echo "Running as runner: $(whoami)"
-        sudo -u runner echo "Current directory: $(pwd)"
         mkdir -p /Users/runner/custom_workspace/fastlane
         export CUSTOM_FASTLANE_DIR="/Users/runner/custom_workspace/fastlane"
         echo "Workspace set to $CUSTOM_FASTLANE_DIR"
@@ -246,3 +244,10 @@ jobs:
     - name: Notify Success
       if: success()
       run: echo "iOS Application successfully released to TestFlight."
+
+
+
+
+#manual steps
+#mkdir -p /Users/runner/custom_workspace/fastlane
+#sudo sysadminctl -addUser runner -fullName "Runner User" -password "Password123"
