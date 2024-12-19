@@ -202,7 +202,7 @@ jobs:
                 readonly: false,
                 api_key: api_key,
                 # team_id: "${{secrets.TEAM_ID}}",
-                keychain_name: "ci-temp.keychain-db",
+                keychain: "/Users/runner/Library/Keychains/ci-temp.keychain-db",
                 keychain_password: "${{secrets.KEYCHAIN_PASSWORD}}"
             )
 
