@@ -102,6 +102,9 @@ jobs:
 
     - name: Create and unlock keychain
       run: |
+        if [ -f /Users/runner/Library/Keychains/ci-temp.keychain-db ]; then
+          rm /Users/runner/Library/Keychains/ci-temp.keychain-db
+        fi
         security create-keychain -p ${{ secrets.KEYCHAIN_PASSWORD }} /Users/runner/Library/Keychains/ci-temp.keychain-db
         security unlock-keychain -p ${{ secrets.KEYCHAIN_PASSWORD }} /Users/runner/Library/Keychains/ci-temp.keychain-db
         security list-keychains -s /Users/runner/Library/Keychains/ci-temp.keychain-db
