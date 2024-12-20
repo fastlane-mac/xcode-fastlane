@@ -28,6 +28,7 @@ jobs:
       cancel-in-progress: true  # Cancel any in-progress job for the same branch if a new push is triggered
 
     env:
+      SCHEME_NAME: Xcode Demo
       APP_IDENTIFIER: com.thinksys.habitTracker
       # APPLE_DEVELOPER_ACCOUNT: ${{ secrets.APPLE_DEVELOPER_ACCOUNT }}
       FASTLANE_APPLE_ID: ${{ secrets.FASTLANE_APPLE_ID }}
@@ -173,7 +174,7 @@ jobs:
 
             increment_version_number(
               version_number: new_version,
-              xcodeproj: "Xcode Demo.xcodeproj"
+              xcodeproj: "${{ env.SCHEME_NAME }}.xcodeproj"
             )
     
             # puts "Fetched app version from App Store Connect: #{app_version}"  # Optional: print the app version for debugging
@@ -209,8 +210,8 @@ jobs:
             
             # Build the app
             build_app(
-              scheme: "Xcode Demo",
-              archive_path: "/Users/runner/custom_workspace/Archives/#{Time.now.strftime('%Y-%m-%d')}/Xcode Demo #{Time.now.strftime('%Y-%m-%d %H.%M.%S')}.xcarchive",
+              scheme: "${{ env.SCHEME_NAME }}",
+              archive_path: "/Users/runner/custom_workspace/Archives/#{Time.now.strftime('%Y-%m-%d')}/${{ env.SCHEME_NAME }} #{Time.now.strftime('%Y-%m-%d %H.%M.%S')}.xcarchive",
               derived_data_path: "/Users/runner/custom_workspace/DerivedData",
               codesigning_identity: "Apple Distribution",
               export_options: {
